@@ -1,7 +1,13 @@
 import './Main.css';
 import { Component } from 'react';
 
-type WithClassName = {   
+type WithClassName = {
+
+
+
+
+
+
 
   
   children: React.ReactNode;
