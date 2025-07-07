@@ -3,14 +3,6 @@ import { Component } from 'react';
 
 type WithClassName = {
   children: React.ReactNode;
-
-
-
-
-
-
-  
-
 };
 
 class Main extends Component<WithClassName> {
