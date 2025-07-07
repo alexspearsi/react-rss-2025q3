@@ -2,15 +2,11 @@ import './Main.css';
 import { Component } from 'react';
 
 type WithClassName = {
-
-
-
-
+  children: React.ReactNode;
 
 
 
   
-  children: React.ReactNode;
 };
 
 class Main extends Component<WithClassName> {
