@@ -1,35 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Component } from 'react';
+import Main from './Main/Main';
+import Header from './Header/Header';
+import Card from './Card/Card';
+import type { Character } from './types/character';
 
-function App() {
-  const [count, setCount] = useState(0)
+type AppState = {
+  characters: Character[];
+  searchQuery: string;
+};
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+class App extends Component<object, AppState> {
+  constructor(props: object) {
+    super(props);
+    this.state = {
+      characters: [],
+      searchQuery: '',
+    };
+  }
+
+  async componentDidMount() {
+    const characters = [];
+    for (let i = 1; i <= 3; i++) {
+      const response = await fetch(
+        `https://rickandmortyapi.com/api/character/?name=${this.state.searchQuery}&page=${i}`
+      );
+      const data = await response.json();
+      characters.push(...data.results);
+    }
+    this.setState({ characters: characters });
+  }
+
+  handleSearchChange = (value: string) => {
+    this.setState({ searchQuery: value });
+  };
+
+  render() {
+    const { characters, searchQuery } = this.state;
+    const filtered = characters.filter((char) =>
+      char.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    return (
+      <>
+        <Header onSearchChange={this.handleSearchChange} />
+        <Main>
+          {filtered.map((character, index) => (
+            <Card key={index} character={character} />
+          ))}
+        </Main>
+      </>
+    );
+  }
 }
 
-export default App
+export default App;
