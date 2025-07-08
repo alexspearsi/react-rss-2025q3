@@ -36,8 +36,8 @@ class App extends Component<object, AppState> {
 
   render() {
     const { characters, searchQuery } = this.state;
-    const filtered = characters.filter((char) =>
-      char.name.toLowerCase().includes(searchQuery.toLowerCase())
+    const filtered = characters.filter((character) =>
+      character.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (

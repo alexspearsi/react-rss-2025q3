@@ -5,9 +5,24 @@ type HeaderProps = {
   onSearchChange: (value: string) => void;
 };
 
-class Header extends Component<HeaderProps> {
-  handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.onSearchChange(e.target.value);
+type HeaderState = {
+  inputValue: string;
+};
+
+class Header extends Component<HeaderProps, HeaderState> {
+  constructor(props: HeaderProps) {
+    super(props);
+    this.state = {
+      inputValue: '',
+    };
+  }
+
+  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ inputValue: e.target.value });
+  };
+
+  handleSearchClick = () => {
+    this.props.onSearchChange(this.state.inputValue);
   };
 
   render() {
@@ -17,9 +32,12 @@ class Header extends Component<HeaderProps> {
           type="text"
           className="header__input"
           placeholder="Search by name..."
-          onChange={this.handleInput}
+          value={this.state.inputValue}
+          onChange={this.handleInputChange}
         ></input>
-        <button className="header__button">Search</button>
+        <button className="header__button" onClick={this.handleSearchClick}>
+          Search
+        </button>
       </header>
     );
   }

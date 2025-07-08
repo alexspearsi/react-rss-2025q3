@@ -18,6 +18,7 @@ class Card extends Component<Props> {
         return '';
     }
   };
+
   getSpeciesColor = (status: string) => {
     switch (status) {
       case 'Human':
