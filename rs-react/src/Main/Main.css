@@ -1,12 +1,15 @@
 .main {
-  gap: 12px;
-  width: 100%;
   display: flex;
-
-
-
-
-  max-width:                          500px;
   flex-direction: column;
+  gap: 12px;
+
+  width: 100%;
+  max-width: 500px;
   padding: 20px;
+}
+
+.main__nothing-found {
+  font-size: 32px;
+  color: white;
+  text-align: center;
 }

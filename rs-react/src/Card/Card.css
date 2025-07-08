@@ -1,14 +1,19 @@
 .card {
+  cursor: pointer;
+
+  position: relative;
+
+  overflow: hidden;
   display: flex;
   flex-direction: row;
   gap: 10px;
-  border-radius: 10px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+
   width: 100%;
-  overflow: hidden;
-  position: relative;
+  border-radius: 10px;
+
+  box-shadow: 0 10px 20px rgb(0 0 0 / 25%);
+
   transition: all 0.3s ease;
-  cursor: pointer;
 }
 
 .card:hover {
@@ -16,16 +21,17 @@
 }
 
 .card__item {
-  font-size: 10px;
   width: 200px;
+  font-size: 10px;
 }
 
 .card__description {
-  border: 1px solid black;
   width: 70%;
-  border-radius: 10px;
-  background-color: white;
   padding-left: 20px;
+  border: 1px solid black;
+  border-radius: 10px;
+
+  background-color: white;
 }
 
 .card__title {
@@ -33,40 +39,43 @@
 }
 
 .card__row {
-  margin-top: -20px;
   display: flex;
   flex-direction: row;
   gap: 6px;
+  margin-top: -20px;
 }
 
 .avatar {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   border-radius: 10px;
+  object-fit: cover;
 }
 
 .card__traits {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 8px;
-  flex-wrap: wrap;
 }
 
 .card__trait {
   margin-top: -15px;
-  background-color: #cd9191;
-  /* color: #333; */
-  color: white;
   padding: 4px 10px;
+  border: 1px solid #ccc;
   border-radius: 8px;
+
   font-size: 10px;
   font-weight: 500;
-  border: 1px solid #ccc;
+
+  /* color: #333; */
+  color: white;
+
+  background-color: #cd9191;
 }
 
 .card__trait.male {
-  background-color: rgb(162, 162, 248);
+  background-color: rgb(162 162 248);
 }
 
 .card__trait.female {
