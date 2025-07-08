@@ -8,6 +8,27 @@
   padding: 10px 20px;
 }
 
+.header__form {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+
+  width: 100%;
+  max-width: 500px;
+}
+
+.header__input {
+  flex: 1;
+
+  padding-left: 10px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+
+  font-size: 18px;
+  outline: none;
+}
+
 .header__button {
   cursor: pointer;
 
@@ -31,12 +52,3 @@
   background: #b1a5a5;
 }
 
-.header__input {
-  flex: 1;
-
-  height: 40px;
-  border: none;
-  border-radius: 8px;
-
-  font-size: 18px;
-}

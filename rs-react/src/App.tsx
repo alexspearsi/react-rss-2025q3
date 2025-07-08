@@ -21,39 +21,45 @@ class App extends Component<object, AppState> {
     };
   }
 
-  async componentDidMount() {
+  async fetchCharacters(searchQuery: string) {
     this.setState({ isLoading: true });
-    const characters: Character[] = [];
 
-    for (let i = 1; i <= 24; i++) {
+    try {
+      const characters: Character[] = [];
       const response = await fetch(
-        `https://rickandmortyapi.com/api/character/?name=${this.state.searchQuery}&page=${i}`
+        `https://rickandmortyapi.com/api/character/?name=${searchQuery}`
       );
       const data = await response.json();
       characters.push(...data.results);
-    }
 
-    this.setState({ characters: characters, isLoading: false });
+      this.setState({ characters, isLoading: false });
+    } catch (error) {
+      console.error(error);
+      this.setState({ characters: [], isLoading: false });
+    }
   }
 
-  handleSearchChange = (value: string) => {
-    this.setState({ searchQuery: value });
+  async componentDidMount() {
+    this.fetchCharacters('');
+  }
+
+  handleSearchSubmit = (query: string) => {
+    this.setState({ searchQuery: query }, () => {
+      this.fetchCharacters(query);
+    });
   };
 
   render() {
-    const { characters, searchQuery, isLoading } = this.state;
-    const filtered = characters.filter((character) =>
-      character.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const { characters, isLoading } = this.state;
 
     return (
       <>
-        <Header onSearchChange={this.handleSearchChange} />
+        <Header onSearchSubmit={this.handleSearchSubmit} />
         <Main>
           {isLoading ? (
             <div className="spinner"></div>
           ) : (
-            filtered.map((character, index) => (
+            characters.map((character, index) => (
               <Card key={index} character={character} />
             ))
           )}
