@@ -22,10 +22,10 @@ class App extends Component<object, AppState> {
   }
 
   async fetchCharacters(searchQuery: string) {
+    const characters = [];
     this.setState({ isLoading: true });
 
     try {
-      const characters: Character[] = [];
       const response = await fetch(
         `https://rickandmortyapi.com/api/character/?name=${searchQuery}`
       );
