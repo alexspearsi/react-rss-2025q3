@@ -13,14 +13,11 @@ type AppState = {
 };
 
 class App extends Component<object, AppState> {
-  constructor(props: object) {
-    super(props);
-    this.state = {
-      characters: [],
-      searchQuery: '',
-      isLoading: false,
-    };
-  }
+  state = {
+    characters: [],
+    searchQuery: '',
+    isLoading: false,
+  };
 
   async fetchCharacters(searchQuery: string) {
     this.setState({ isLoading: true });

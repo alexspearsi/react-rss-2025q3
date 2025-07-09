@@ -1,15 +1,14 @@
-import type { Character } from '../types/character';
 import './Card.css';
-
 import { Component } from 'react';
+import type { Character } from '../../types/character';
 
 type Props = {
   character: Character;
 };
 
 class Card extends Component<Props> {
-  getGenderColor = (status: string) => {
-    switch (status) {
+  getGenderColor = (gender: string) => {
+    switch (gender) {
       case 'Male':
         return 'male';
       case 'Female':
@@ -19,8 +18,8 @@ class Card extends Component<Props> {
     }
   };
 
-  getSpeciesColor = (status: string) => {
-    switch (status) {
+  getSpeciesColor = (species: string) => {
+    switch (species) {
       case 'Human':
         return 'human';
       case 'Alien':
@@ -38,7 +37,6 @@ class Card extends Component<Props> {
         <div className="card__item">
           <img className="avatar" src={character.image} alt={character.name} />
         </div>
-
         <div className="card__description">
           <h2 className="card__title">{character.name}</h2>
           <p className="card__traits">

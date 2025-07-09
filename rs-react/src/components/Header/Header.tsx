@@ -10,12 +10,9 @@ type HeaderState = {
 };
 
 class Header extends Component<HeaderProps, HeaderState> {
-  constructor(props: HeaderProps) {
-    super(props);
-    this.state = {
-      inputValue: localStorage.getItem('query') || '',
-    };
-  }
+  state = {
+    inputValue: localStorage.getItem('query') || '',
+  };
 
   handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ inputValue: e.target.value });
@@ -27,12 +24,6 @@ class Header extends Component<HeaderProps, HeaderState> {
     this.props.onSearchSubmit(query);
   };
 
-  queryFromLS = () => {
-    return localStorage.getItem('query')
-      ? localStorage.getItem('query')
-      : 'Search by name...';
-  };
-
   render() {
     return (
       <header className="header">
@@ -41,7 +32,7 @@ class Header extends Component<HeaderProps, HeaderState> {
             type="text"
             className="header__input"
             placeholder={'Search by name...'}
-            value={this.queryFromLS() && this.state.inputValue}
+            value={this.state.inputValue}
             onChange={this.handleInputChange}
           ></input>
           <button className="header__button">Search</button>
