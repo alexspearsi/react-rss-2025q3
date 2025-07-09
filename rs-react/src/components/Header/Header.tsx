@@ -24,7 +24,6 @@ class Header extends Component<HeaderProps, HeaderState> {
   handleSearchClick = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const query = this.state.inputValue;
-    localStorage.setItem('query', query);
     this.props.onSearchSubmit(query);
   };
 

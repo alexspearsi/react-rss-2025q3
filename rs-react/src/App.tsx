@@ -1,8 +1,9 @@
 import './App.css';
 import { Component } from 'react';
-import Main from './Main/Main';
-import Header from './Header/Header';
-import Card from './Card/Card';
+import Main from './components/Main/Main';
+import Header from './components/Header/Header';
+import Card from './components/Card/Card';
+import Spinner from './components/Spinner/Spinner';
 import type { Character } from './types/character';
 
 type AppState = {
@@ -22,7 +23,6 @@ class App extends Component<object, AppState> {
   }
 
   async fetchCharacters(searchQuery: string) {
-    const characters = [];
     this.setState({ isLoading: true });
 
     try {
@@ -30,9 +30,7 @@ class App extends Component<object, AppState> {
         `https://rickandmortyapi.com/api/character/?name=${searchQuery}`
       );
       const data = await response.json();
-      characters.push(...data.results);
-
-      this.setState({ characters, isLoading: false });
+      this.setState({ characters: data.results || [], isLoading: false });
     } catch (error) {
       console.error(error);
       this.setState({ characters: [], isLoading: false });
@@ -46,6 +44,7 @@ class App extends Component<object, AppState> {
   }
 
   handleSearchSubmit = (query: string) => {
+    localStorage.setItem('query', query);
     this.setState({ searchQuery: query }, () => {
       this.fetchCharacters(query);
     });
@@ -59,7 +58,7 @@ class App extends Component<object, AppState> {
         <Header onSearchSubmit={this.handleSearchSubmit} />
         <Main>
           {isLoading ? (
-            <div className="spinner"></div>
+            <Spinner />
           ) : (
             characters.map((character, index) => (
               <Card key={index} character={character} />

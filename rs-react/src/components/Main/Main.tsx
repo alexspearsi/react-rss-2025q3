@@ -14,7 +14,7 @@ class Main extends Component<WithClassName> {
       <main className="main">
         {childrenCount === 0 ? (
           <p className="main__nothing-found">
-            Morty, we searched the multiverse... and found nothing
+            We searched the multiverse... and found nothing
           </p>
         ) : (
           children
