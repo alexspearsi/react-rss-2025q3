@@ -9,7 +9,7 @@ type HeaderState = {
   inputValue: string;
 };
 
-class Header extends Component<HeaderProps, HeaderState> {
+export class Header extends Component<HeaderProps, HeaderState> {
   state = {
     inputValue: localStorage.getItem('query') || '',
   };
@@ -41,5 +41,3 @@ class Header extends Component<HeaderProps, HeaderState> {
     );
   }
 }
-
-export default Header;

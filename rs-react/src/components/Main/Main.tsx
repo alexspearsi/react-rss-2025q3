@@ -5,7 +5,7 @@ type WithClassName = {
   children: React.ReactNode;
 };
 
-class Main extends Component<WithClassName> {
+export class Main extends Component<WithClassName> {
   render() {
     const { children } = this.props;
     const childrenCount = Children.count(children);
@@ -23,5 +23,3 @@ class Main extends Component<WithClassName> {
     );
   }
 }
-
-export default Main;

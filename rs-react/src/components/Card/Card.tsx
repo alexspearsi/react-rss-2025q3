@@ -1,72 +1,40 @@
 import './Card.css';
 import { Component } from 'react';
+import { CardImage } from './CardImage';
+import { CardTitle } from './CardTitle';
+import { CardDetail } from './CardRow';
+import { CardTrait } from './CardTrait';
 import type { Character } from '../../types/character';
+import { CardDescription } from './CardDescription';
 
 type Props = {
   character: Character;
 };
 
-class Card extends Component<Props> {
-  getGenderColor = (gender: string) => {
-    switch (gender) {
-      case 'Male':
-        return 'male';
-      case 'Female':
-        return 'female';
-      default:
-        return '';
-    }
-  };
-
-  getSpeciesColor = (species: string) => {
-    switch (species) {
-      case 'Human':
-        return 'human';
-      case 'Alien':
-        return 'alien';
-      default:
-        return '';
-    }
-  };
-
+export class Card extends Component<Props> {
   render() {
-    const { character } = this.props;
+    const { name, image, species, gender, status, origin, created } =
+      this.props.character;
 
     return (
       <div className="card">
-        <div className="card__item">
-          <img className="avatar" src={character.image} alt={character.name} />
-        </div>
-        <div className="card__description">
-          <h2 className="card__title">{character.name}</h2>
+        <CardImage image={image} name={name} />
+
+        <CardDescription>
+          <CardTitle>{name}</CardTitle>
           <p className="card__traits">
-            <span
-              className={`card__trait ${this.getSpeciesColor(character.species)}`}
-            >
-              {character.species}
-            </span>
-            <span
-              className={`card__trait ${this.getGenderColor(character.gender)}`}
-            >
-              {character.gender}
-            </span>
+            <CardTrait type="species" value={species} />
+            <CardTrait type="gender" value={gender} />
           </p>
-          <div className="card__row">
-            <img src="/icons/alive-status.svg" alt="Status icon" />
-            <p>{character.status}</p>
-          </div>
-          <div className="card__row">
-            <img src="/icons/location.svg" alt="Location icon" />
-            <p>{character.origin.name}</p>
-          </div>
-          <div className="card__row">
-            <img src="/icons/episodes.svg" alt="Created icon" />
-            <p>{new Date(character.created).toLocaleDateString()}</p>
-          </div>
-        </div>
+
+          <CardDetail icon="status" text={status} />
+          <CardDetail icon="location" text={origin.name} />
+          <CardDetail
+            icon="creation"
+            text={new Date(created).toLocaleDateString()}
+          />
+        </CardDescription>
       </div>
     );
   }
 }
-
-export default Card;

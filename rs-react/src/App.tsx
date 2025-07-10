@@ -1,9 +1,9 @@
 import './App.css';
 import { Component } from 'react';
-import Main from './components/Main/Main';
-import Header from './components/Header/Header';
-import Card from './components/Card/Card';
-import Spinner from './components/Spinner/Spinner';
+import { Main } from './components/Main/Main';
+import { Header } from './components/Header/Header';
+import { Card } from './components/Card/Card';
+import { Spinner } from './components/Spinner/Spinner';
 import type { Character } from './types/character';
 
 type AppState = {
@@ -12,7 +12,7 @@ type AppState = {
   isLoading: boolean;
 };
 
-class App extends Component<object, AppState> {
+export class App extends Component<object, AppState> {
   state = {
     characters: [],
     searchQuery: '',
@@ -66,5 +66,3 @@ class App extends Component<object, AppState> {
     );
   }
 }
-
-export default App;
