@@ -1,18 +1,13 @@
 .card {
   cursor: pointer;
-
   position: relative;
-
   overflow: hidden;
   display: flex;
   flex-direction: row;
   gap: 10px;
-
   width: 100%;
   border-radius: 10px;
-
   box-shadow: 0 10px 20px rgb(0 0 0 / 25%);
-
   transition: all 0.3s ease;
 }
 
@@ -37,7 +32,6 @@
   padding-left: 20px;
   border: 1px solid black;
   border-radius: 10px;
-
   background-color: white;
 }
 
@@ -64,13 +58,9 @@
   padding: 4px 10px;
   border: 1px solid #ccc;
   border-radius: 8px;
-
   font-size: 10px;
   font-weight: 500;
-
-  /* color: #333; */
   color: white;
-
   background-color: #cd9191;
 }
 

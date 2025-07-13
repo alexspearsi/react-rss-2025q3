@@ -10,8 +10,6 @@
     "lint:fix": "eslint --fix ./src",
     "preview": "vite preview",
     "format:fix": "prettier --write .",
-    "stylelint": "stylelint src/**/*.css",
-    "stylelint:fix": "stylelint --fix src/**/*.css",
     "prepare": "husky"
   },
   "dependencies": {

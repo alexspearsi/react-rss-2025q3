@@ -1,5 +1,6 @@
 import './Header.css';
 import { Component } from 'react';
+import { Button } from '../Button/Button';
 
 type Props = {
   onSearchSubmit: (query: string) => void;
@@ -35,7 +36,7 @@ export class Header extends Component<Props, State> {
             value={this.state.inputValue}
             onChange={this.handleInputChange}
           ></input>
-          <button className="header__button">Search</button>
+          <Button className={'header__button'}>Search</Button>
         </form>
       </header>
     );

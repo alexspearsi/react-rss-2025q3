@@ -1,13 +1,24 @@
 import './Main.css';
 import { Component, Children } from 'react';
+import { Button } from '../Button/Button';
 
 type Props = {
   children: React.ReactNode;
+  onErrorButtonClick: () => void;
 };
 
 export class Main extends Component<Props> {
+  state = {
+    showButton: false,
+  };
+
+  componentDidMount() {
+    this.setState({ showButton: true });
+  }
+
   render() {
-    const { children } = this.props;
+    const { children, onErrorButtonClick } = this.props;
+    const { showButton } = this.state;
     const childrenCount = Children.count(children);
 
     return (
@@ -18,6 +29,15 @@ export class Main extends Component<Props> {
           </p>
         ) : (
           children
+        )}
+
+        {showButton && (
+          <Button
+            className={`button main__button-error`}
+            onClick={onErrorButtonClick}
+          >
+            Invoke Error
+          </Button>
         )}
       </main>
     );

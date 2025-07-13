@@ -1,4 +1,3 @@
-import './App.css';
 import { Component } from 'react';
 import { Main } from './components/Main/Main';
 import { Card } from './components/Card/Card';
@@ -8,18 +7,17 @@ import { Header } from './components/Header/Header';
 
 type AppState = {
   characters: Character[];
-
   searchQuery: string;
-
   isLoading: boolean;
+  hasError: boolean;
 };
 
 export class App extends Component<object, AppState> {
   state = {
     characters: [],
-
     searchQuery: '',
     isLoading: false,
+    hasError: false,
   };
 
   async fetchCharacters(searchQuery: string) {
@@ -37,12 +35,7 @@ export class App extends Component<object, AppState> {
   }
 
   async componentDidMount() {
-    const queryFromStorage =          localStorage.getItem('query') || '';
-
-
-
-
-
+    const queryFromStorage = localStorage.getItem('query') || '';
 
     this.setState({ searchQuery: queryFromStorage });
     await this.fetchCharacters(queryFromStorage);
@@ -55,13 +48,21 @@ export class App extends Component<object, AppState> {
     });
   };
 
+  handleClick = () => {
+    this.setState({ hasError: true });
+  };
+
   render() {
-    const { characters, isLoading } = this.state;
+    const { characters, isLoading, hasError } = this.state;
+
+    if (hasError) {
+      throw new Error('The button was clicked');
+    }
 
     return (
-      <>
+      <div>
         <Header onSearchSubmit={this.handleSearchSubmit} />
-        <Main>
+        <Main onErrorButtonClick={this.handleClick}>
           {isLoading ? (
             <Spinner />
           ) : (
@@ -70,7 +71,7 @@ export class App extends Component<object, AppState> {
             ))
           )}
         </Main>
-      </>
+      </div>
     );
   }
 }
