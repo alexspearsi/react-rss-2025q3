@@ -7,63 +7,34 @@ import type { Character } from './types/character';
 import { Header } from './components/Header/Header';
 
 type AppState = {
-
-
-  
   characters: Character[];
-
-
 
   searchQuery: string;
 
-
-
   isLoading: boolean;
-
-
-
 };
 
 export class App extends Component<object, AppState> {
   state = {
-
-
-
-
     characters: [],
-
-
-
 
     searchQuery: '',
     isLoading: false,
   };
 
   async fetchCharacters(searchQuery: string) {
-
-
-
     this.setState({ isLoading: true });
 
-
-
     try {
-
-
-
-          const response = await fetch(
+      const response = await fetch(
         `https://rickandmortyapi.com/api/character/?name=${searchQuery}`
       );
       const data = await response.json();
       this.setState({ characters: data.results || [], isLoading: false });
     } catch {
       this.setState({ characters: [], isLoading: false });
-    }    
+    }
   }
-
-  
-
-  
 
   async componentDidMount() {
     const queryFromStorage = localStorage.getItem('query') || '';

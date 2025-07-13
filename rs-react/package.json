@@ -12,7 +12,7 @@
     "format:fix": "prettier --write .",
     "stylelint": "stylelint src/**/*.css",
     "stylelint:fix": "stylelint --fix src/**/*.css",
-    "prepare": "cd .. && husky rs-react/.husky"
+    "prepare": "husky"
   },
   "dependencies": {
     "react": "^19.1.0",
