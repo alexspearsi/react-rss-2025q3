@@ -28,6 +28,10 @@ export class App extends Component<object, AppState> {
       const data = await response.json();
       this.setState({ characters: data.results || [], isLoading: false });
     } catch {
+
+
+
+      
       this.setState({ characters: [], isLoading: false });
     }
   }
