@@ -10,7 +10,7 @@ type AppState = {
   characters: Character[];
 
 
-  
+
   searchQuery: string;
 
 
@@ -37,6 +37,9 @@ export class App extends Component<object, AppState> {
   };
 
   async fetchCharacters(searchQuery: string) {
+
+
+    
     this.setState({ isLoading: true });
     try {
 
