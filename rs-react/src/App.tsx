@@ -8,13 +8,30 @@ import { Header } from './components/Header/Header';
 
 type AppState = {
   characters: Character[];
+
+
+  
   searchQuery: string;
+
+
+
   isLoading: boolean;
+
+
+
 };
 
 export class App extends Component<object, AppState> {
   state = {
+
+
+
+
     characters: [],
+
+
+
+
     searchQuery: '',
     isLoading: false,
   };
@@ -24,7 +41,7 @@ export class App extends Component<object, AppState> {
     try {
 
 
-      
+
           const response = await fetch(
         `https://rickandmortyapi.com/api/character/?name=${searchQuery}`
       );
