@@ -29,10 +29,10 @@ export class App extends Component<object, AppState> {
       this.setState({ characters: data.results || [], isLoading: false });
     } catch {
       this.setState({ characters: [], isLoading: false });
-    }
+    }    
   }
 
-
+  
 
   
 
