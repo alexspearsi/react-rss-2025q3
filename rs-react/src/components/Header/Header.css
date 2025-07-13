@@ -1,29 +1,43 @@
 .header {
   display: flex;
+  width: 100%;
+  max-width: 500px;
   flex-direction: row;
   gap: 16px;
 
-  width: 100%;
-  max-width: 500px;
+
+
+
+
+
+
+
   padding: 10px 20px;
 }
 
+
+
+
+
+
+
+
 .header__form {
-  display: flex;
   flex-direction: row;
   gap: 16px;
-
+  
   width: 100%;
   max-width: 500px;
+  display: flex;
 }
 
 .header__input {
-  flex: 1;
-
+  
   height: 40px;
   padding-left: 10px;
   border: none;
   border-radius: 8px;
+  flex: 1;
 
   font-size: 18px;
 
