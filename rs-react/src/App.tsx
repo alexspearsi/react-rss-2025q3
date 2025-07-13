@@ -37,7 +37,13 @@ export class App extends Component<object, AppState> {
   }
 
   async componentDidMount() {
-    const queryFromStorage = localStorage.getItem('query') || '';
+    const queryFromStorage =          localStorage.getItem('query') || '';
+
+
+
+
+
+
     this.setState({ searchQuery: queryFromStorage });
     await this.fetchCharacters(queryFromStorage);
   }

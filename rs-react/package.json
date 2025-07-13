@@ -14,12 +14,6 @@
     "stylelint:fix": "stylelint --fix src/**/*.css",
     "prepare": "husky"
   },
-  "lint-staged": {
-  "**/*.{js,ts,jsx,tsx}": [
-    "eslint --fix",
-    "prettier --write"
-    ]
-  },
   "dependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
