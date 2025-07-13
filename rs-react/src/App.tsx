@@ -22,7 +22,7 @@ export class App extends Component<object, AppState> {
   async fetchCharacters(searchQuery: string) {
     this.setState({ isLoading: true });
     try {
-      const response = await fetch(
+          const response = await fetch(
         `https://rickandmortyapi.com/api/character/?name=${searchQuery}`
       );
       const data = await response.json();
@@ -31,7 +31,6 @@ export class App extends Component<object, AppState> {
       this.setState({ characters: [], isLoading: false });
     }
   }
-
 
 
 
