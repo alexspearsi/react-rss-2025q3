@@ -15,11 +15,11 @@
     "prepare": "husky"
   },
   "lint-staged": {
-  "src/**/*.{js,ts,jsx,tsx}": [
-    "eslint --fix",
-    "prettier --write .",
-    "stylelint --fix src/**/*.css"
-    ]
+    "src/**/*.{js,ts,jsx,tsx,css}": [
+      "eslint --fix",
+      "prettier --write .",
+      "stylelint --fix src/**/*.css"
+      ]
   },
   "dependencies": {
     "react": "^19.1.0",
