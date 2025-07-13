@@ -15,7 +15,6 @@ export class Card extends Component<Props> {
   render() {
     const { name, image, species, gender, status, origin, created } =
       this.props.character;
-      
     return (
       <div className="card">
         <CardImage image={image} name={name} />
