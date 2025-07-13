@@ -1,15 +1,15 @@
 import './Header.css';
 import { Component } from 'react';
 
-type HeaderProps = {
+type Props = {
   onSearchSubmit: (query: string) => void;
 };
 
-type HeaderState = {
+type State = {
   inputValue: string;
 };
 
-export class Header extends Component<HeaderProps, HeaderState> {
+export class Header extends Component<Props, State> {
   state = {
     inputValue: localStorage.getItem('query') || '',
   };

@@ -1,10 +1,10 @@
 import './App.css';
 import { Component } from 'react';
 import { Main } from './components/Main/Main';
-import { Header } from './components/Header/Header';
 import { Card } from './components/Card/Card';
 import { Spinner } from './components/Spinner/Spinner';
 import type { Character } from './types/character';
+import { Header } from './components/Header/Header';
 
 type AppState = {
   characters: Character[];
@@ -27,8 +27,7 @@ export class App extends Component<object, AppState> {
       );
       const data = await response.json();
       this.setState({ characters: data.results || [], isLoading: false });
-    } catch (error) {
-      console.error(error);
+    } catch {
       this.setState({ characters: [], isLoading: false });
     }
   }
@@ -40,7 +39,7 @@ export class App extends Component<object, AppState> {
   }
 
   handleSearchSubmit = (query: string) => {
-    localStorage.setItem('query', query);
+    localStorage.setItem('query', query.trim());
     this.setState({ searchQuery: query }, () => {
       this.fetchCharacters(query);
     });

@@ -4,11 +4,29 @@
 
 body {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   background-color: #242424;
 }
 
 #root {
-  display: flex;
   flex-direction: column;
+  display: flex;
   align-items: center;
 }

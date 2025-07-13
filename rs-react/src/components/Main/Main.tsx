@@ -1,11 +1,11 @@
 import './Main.css';
 import { Component, Children } from 'react';
 
-type WithClassName = {
+type Props = {
   children: React.ReactNode;
 };
 
-export class Main extends Component<WithClassName> {
+export class Main extends Component<Props> {
   render() {
     const { children } = this.props;
     const childrenCount = Children.count(children);
