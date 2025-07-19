@@ -2,7 +2,7 @@ import './Card.css';
 import { Component } from 'react';
 import { CardImage } from './CardImage';
 import { CardTitle } from './CardTitle';
-import { CardDetail } from './CardRow';
+import { CardDetail } from './CardDetail';
 import { CardTrait } from './CardTrait';
 import type { Character } from '../../types/character';
 import { CardDescription } from './CardDescription';
