@@ -10,7 +10,7 @@ import { App } from './App';
 describe('Test App component', () => {
   test('renders a message', () => {
     const EXAMPLE_TEXT = 'Hello, World!';
-    
+
     const { getByText } = render(<CardTitle>{EXAMPLE_TEXT}</CardTitle>);
 
     const title = getByText(EXAMPLE_TEXT);
