@@ -16,7 +16,7 @@ export class Card extends Component<Props> {
     const { name, image, species, gender, status, origin, created } =
       this.props.character;
     return (
-      <div className="card">
+      <div data-testid="card" className="card">
         <CardImage image={image} name={name} />
 
         <CardDescription>

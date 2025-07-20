@@ -35,7 +35,7 @@ export default tseslint.config(
       'react-compiler/react-compiler': 'error',
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
-      'prettier/prettier': 0
+      'prettier/prettier': 0,
     },
     settings: {
       react: {
