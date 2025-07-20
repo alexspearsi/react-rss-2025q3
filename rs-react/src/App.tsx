@@ -27,7 +27,9 @@ export class App extends Component<object, AppState> {
       const response = await fetch(
         `https://rickandmortyapi.com/api/character/?name=${searchQuery}`
       );
+
       const data = await response.json();
+      
       this.setState({ characters: data.results || [], isLoading: false });
     } catch {
       this.setState({ characters: [], isLoading: false });
@@ -43,6 +45,7 @@ export class App extends Component<object, AppState> {
 
   handleSearchSubmit = (query: string) => {
     localStorage.setItem('query', query.trim());
+
     this.setState({ searchQuery: query }, () => {
       this.fetchCharacters(query);
     });

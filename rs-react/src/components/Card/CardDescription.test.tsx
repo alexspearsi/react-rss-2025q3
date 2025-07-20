@@ -3,16 +3,16 @@ import { render, screen } from '@testing-library/react';
 import { CardDescription } from './CardDescription';
 
 describe('Test CardDescription component', () => {
-  const exampleText = 'Inner text';
+  const EXAMPLE_TEXT = 'Inner text';
 
   it ('renders inner elements correctly', () => {
     render(
       <CardDescription>
-        {exampleText}
+        {EXAMPLE_TEXT}
       </CardDescription>
     )
 
-    const element = screen.getByText(exampleText);
+    const element = screen.getByText(EXAMPLE_TEXT);
     expect(element).toBeInTheDocument();
   })
 })
