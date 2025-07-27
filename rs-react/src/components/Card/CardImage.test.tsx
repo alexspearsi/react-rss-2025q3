@@ -2,9 +2,10 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { CardImage } from './CardImage';
 
+const EXAMPLE_CHARACTER = 'Morty';
+
 describe('Test CardImage component', () => {
   it('renders CardImage component correctly', () => {
-    const EXAMPLE_CHARACTER = 'Morty';
 
     render(<CardImage image={EXAMPLE_CHARACTER} name={EXAMPLE_CHARACTER} />);
 
