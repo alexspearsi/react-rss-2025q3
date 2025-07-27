@@ -1,0 +1,26 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+}
+
+.main__nothing-found {
+  font-size: 32px;
+  color: white;
+  text-align: center;
+}
+
+.main__button-error {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 120px;
+  border: 12px solid black;
+}
+
+.main__button-error:hover {
+  background-color: rgb(154, 180, 202);
+}

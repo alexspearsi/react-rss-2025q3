@@ -1,0 +1,5 @@
+{
+  "./src/**/*.{jsx,tsx}": "eslint --fix",
+  "./src/**/*.css": "stylelint --fix",
+  "./src/**/*.{json,html,jsx,tsx,css}": "prettier --write"
+}
