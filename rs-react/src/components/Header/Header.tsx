@@ -1,44 +1,47 @@
 import './Header.css';
-import { Component } from 'react';
+import { useState, useEffect, type Dispatch, type SetStateAction } from 'react';
 import { Button } from '../Button/Button';
 
 type Props = {
   onSearchSubmit: (query: string) => void;
 };
 
-type State = {
-  inputValue: string;
-};
+function useLocalStorage(key: string, initialValue: string): [string, Dispatch<SetStateAction<string>>] {
+  const [value, setValue] = useState(() => {
+    return localStorage.getItem(key) || initialValue;
+  })
 
-export class Header extends Component<Props, State> {
-  state = {
-    inputValue: localStorage.getItem('query') || '',
-  };
+  useEffect(() => {
+    localStorage.setItem(key, value);
+  }, [key, value]);
 
-  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ inputValue: e.target.value });
-  };
+  return [value, setValue];
+}
 
-  handleSearchClick = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const query = this.state.inputValue;
-    this.props.onSearchSubmit(query);
-  };
+export function Header({ onSearchSubmit }: Props) {
+  const [inputValue, setInputValue] = useLocalStorage('query', '');
 
-  render() {
-    return (
-      <header className="header">
-        <form className="header__form" onSubmit={this.handleSearchClick}>
-          <input
-            type="text"
-            className="header__input"
-            placeholder={'Search by name...'}
-            value={this.state.inputValue}
-            onChange={this.handleInputChange}
-          ></input>
-          <Button className={'header__button'}>Search</Button>
-        </form>
-      </header>
-    );
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value)
   }
+
+  const handleSearchClick = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSearchSubmit(inputValue);
+  }
+
+  return (
+    <header className="header">
+      <form className="header__form" onSubmit={handleSearchClick}>
+        <input
+          type="text"
+          className="header__input"
+          placeholder="Search by name..."
+          value={inputValue}
+          onChange={handleInputChange}
+        />
+        <Button className="header__button">Search</Button>
+      </form>
+    </header>
+  );
 }
