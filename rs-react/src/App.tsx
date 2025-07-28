@@ -1,80 +1,68 @@
-import { Component } from 'react';
 import { Main } from './components/Main/Main';
 import { Card } from './components/Card/Card';
 import { Spinner } from './components/Spinner/Spinner';
 import type { Character } from './types/character';
 import { Header } from './components/Header/Header';
+import { useState, useEffect } from 'react';
 
-type AppState = {
-  characters: Character[];
-  searchQuery: string;
-  isLoading: boolean;
-  hasError: boolean;
-};
+const BASE_URL = 'https://rickandmortyapi.com/api/character/';
 
-export class App extends Component<object, AppState> {
-  state = {
-    characters: [],
-    searchQuery: '',
-    isLoading: false,
-    hasError: false,
-  };
+export function App() {
+  const [characters, setCharacters] = useState<Character[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [submittedQuery, setSubmittedQuery] = useState<string | null>(null);
 
-  async fetchCharacters(searchQuery: string) {
-    this.setState({ isLoading: true });
+  const fetchCharacters = async (query: string) => {
+    setIsLoading(true);
 
     try {
-      const response = await fetch(
-        `https://rickandmortyapi.com/api/character/?name=${searchQuery}`
-      );
+      const url = new URL(BASE_URL);
+      url.searchParams.set('name', query);
 
+      const response = await fetch(url.toString())
       const data = await response.json();
-
-      this.setState({ characters: data.results || [], isLoading: false });
+      setCharacters(data.results || []);
     } catch {
-      this.setState({ characters: [], isLoading: false });
+      setCharacters([]);
+    } finally {
+      setIsLoading(false);
     }
   }
 
-  async componentDidMount() {
-    const queryFromStorage = localStorage.getItem('query') || '';
+  useEffect(() => {
+    const queryFromStorage = localStorage.getItem('query') ?? '';
+    setSubmittedQuery(queryFromStorage);
+  }, []);
 
-    this.setState({ searchQuery: queryFromStorage });
-    await this.fetchCharacters(queryFromStorage);
-  }
-
-  handleSearchSubmit = (query: string) => {
-    localStorage.setItem('query', query.trim());
-
-    this.setState({ searchQuery: query }, () => {
-      this.fetchCharacters(query);
-    });
-  };
-
-  handleClick = () => {
-    this.setState({ hasError: true });
-  };
-
-  render() {
-    const { characters, isLoading, hasError } = this.state;
-
-    if (hasError) {
-      throw new Error('The button was clicked');
+  useEffect(() => {
+    if (submittedQuery !== null) {
+      fetchCharacters(submittedQuery)
     }
+  }, [submittedQuery])
 
-    return (
-      <div>
-        <Header onSearchSubmit={this.handleSearchSubmit} />
-        <Main onErrorButtonClick={this.handleClick}>
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            characters.map((character, index) => (
-              <Card key={index} character={character} />
-            ))
-          )}
-        </Main>
-      </div>
-    );
+  const handleSearchSubmit = (query: string) => {
+    const trimmedQuery = query.trim();
+    localStorage.setItem('query', trimmedQuery);
+    setSubmittedQuery(trimmedQuery);
   }
+
+  if (hasError) {
+    throw new Error('The button was clicked')
+  }
+
+  return (
+    <div>
+      <Header onSearchSubmit={handleSearchSubmit} />
+      <Main onErrorButtonClick={() => setHasError(true)}>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          characters.map((character, index) => (
+            <Card key={index} character={character} />
+          ))
+        )}
+      </Main>
+    </div>
+  );
 }
