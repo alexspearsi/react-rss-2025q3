@@ -1,5 +1,4 @@
 import './Card.css';
-import { Component } from 'react';
 
 type Props = {
   image: string;
