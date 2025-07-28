@@ -6,18 +6,14 @@ type Props = {
   name: string;
 };
 
-export class CardImage extends Component<Props> {
-  render() {
-    const { image, name } = this.props;
-
+export function CardImage({ image, name }: Props) {
     return (
-      <div className="card__image">
-        <img
-          className="card__image-avatar"
-          src={image}
-          alt={`Picture of ${name}`}
-        />
-      </div>
-    );
-  }
+    <div className="card__image">
+      <img
+        className="card__image-avatar"
+        src={image}
+        alt={`Picture of ${name}`}
+      />
+    </div>
+  );
 }
