@@ -1,5 +1,4 @@
 import './Card.css';
-import { Component } from 'react';
 import { CardImage } from './CardImage';
 import { CardTitle } from './CardTitle';
 import { CardDetail } from './CardDetail';
@@ -11,29 +10,25 @@ type Props = {
   character: Character;
 };
 
-export class Card extends Component<Props> {
-  render() {
-    const { name, image, species, gender, status, origin, created } =
-      this.props.character;
-    return (
-      <div data-testid="card" className="card">
-        <CardImage image={image} name={name} />
+export function Card({ character }: Props) {
+  return (
+    <div data-testid="card" className="card">
+      <CardImage image={character.image} name={character.name} />
 
-        <CardDescription>
-          <CardTitle>{name}</CardTitle>
-          <p className="card__traits">
-            <CardTrait type="species" value={species} />
-            <CardTrait type="gender" value={gender} />
-          </p>
+      <CardDescription>
+        <CardTitle>{character.name}</CardTitle>
+        <p className="card__traits">
+          <CardTrait type="species" value={character.species} />
+          <CardTrait type="gender" value={character.gender} />
+        </p>
 
-          <CardDetail icon="status" text={status} />
-          <CardDetail icon="location" text={origin.name} />
-          <CardDetail
-            icon="creation"
-            text={new Date(created).toLocaleDateString()}
-          />
-        </CardDescription>
-      </div>
-    );
-  }
+        <CardDetail icon="status" text={character.status} />
+        <CardDetail icon="location" text={character.origin.name} />
+        <CardDetail
+          icon="creation"
+          text={new Date(character.created).toLocaleDateString()}
+        />
+      </CardDescription>
+    </div>
+  )
 }
