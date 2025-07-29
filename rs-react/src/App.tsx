@@ -9,7 +9,6 @@ import { useState, useEffect } from 'react';
 import { CardDescription } from './components/Card/CardDescription';
 import { CardTrait } from './components/Card/CardTrait';
 import { CardDetail } from './components/Card/CardDetail';
-import { CardImage } from './components/Card/CardImage';
 
 const BASE_URL = 'https://rickandmortyapi.com/api/character/';
 
@@ -127,11 +126,13 @@ export function App() {
           )}
         </div>
       </div>
-      <Pagination
-        currentPage={page}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      {!isLoading && characters.length > 0 && (
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
     </>
   );
 }

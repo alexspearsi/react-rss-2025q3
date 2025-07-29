@@ -9,12 +9,16 @@ body {
 
 #root {
   display: flex;
-  flex-direction: column;
-  
+  flex-direction: column; 
+}
+
+#main {
+  display: flex;
 }
 
 #side-bar {
   display: flex;
+  flex-shrink: 5;
   flex-direction: row;
   width: 100%;
   transition: width 0.3s ease;
@@ -22,6 +26,7 @@ body {
 
 #detail {
   flex: 1;
+  flex-shrink: 1;
   border-radius: 10px;
   margin-top: 20px;
   margin-bottom: 17px;
