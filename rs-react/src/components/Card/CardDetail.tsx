@@ -6,7 +6,7 @@ type Props = {
 };
 
 export function CardDetail({ icon, text }: Props) {
-    return (
+  return (
     <div className="card__row">
       <img src={`/icons/${icon}.svg`} alt={`${icon} icon`} />
       <p>{text}</p>

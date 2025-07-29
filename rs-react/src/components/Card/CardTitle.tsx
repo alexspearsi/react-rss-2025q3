@@ -5,5 +5,5 @@ type Props = {
 };
 
 export function CardTitle({ children }: Props) {
-  return <h2 className="card__title">{children}</h2>
+  return <h2 className="card__title">{children}</h2>;
 }

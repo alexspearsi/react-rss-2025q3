@@ -9,6 +9,7 @@
   border-radius: 10px;
   box-shadow: 0 10px 20px rgb(0 0 0 / 25%);
   transition: all 0.3s ease;
+  background-color: white;
 }
 
 .card:hover {
@@ -16,7 +17,7 @@
 }
 
 .card__image {
-  width: 200px;
+  width: 60px;
   font-size: 10px;
 }
 
@@ -28,7 +29,7 @@
 }
 
 .card__description {
-  width: 70%;
+  width: 100%;
   padding-left: 20px;
   border: 1px solid black;
   border-radius: 10px;
@@ -36,7 +37,8 @@
 }
 
 .card__title {
-  margin-top: 8px;
+  margin: 8px;
+  font-size: 15px;
 }
 
 .card__row {

@@ -6,7 +6,7 @@ type Props = {
 };
 
 export function CardImage({ image, name }: Props) {
-    return (
+  return (
     <div className="card__image">
       <img
         className="card__image-avatar"

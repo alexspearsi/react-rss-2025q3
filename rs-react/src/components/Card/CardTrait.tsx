@@ -10,7 +10,6 @@ type Props = {
   value: Gender | Species;
 };
 
-
 function getClass(value: string, type: string) {
   if (type === 'gender') {
     if (value === 'Male') return 'male';
@@ -27,8 +26,6 @@ function getClass(value: string, type: string) {
 
 export function CardTrait({ value, type }: Props) {
   return (
-      <span className={`card__trait ${getClass(value, type)}`}>
-        {value}
-      </span>
-  )
+    <span className={`card__trait ${getClass(value, type)}`}>{value}</span>
+  );
 }

@@ -12,7 +12,7 @@ export function Main({ children, onErrorButtonClick }: Props) {
 
   useEffect(() => {
     setShowButton(true);
-  }, [])
+  }, []);
 
   const childrenCount = Children.count(children);
 
@@ -35,5 +35,5 @@ export function Main({ children, onErrorButtonClick }: Props) {
         </Button>
       )}
     </main>
-  )
+  );
 }
