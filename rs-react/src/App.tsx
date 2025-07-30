@@ -35,7 +35,6 @@ export function App() {
 
       const response = await fetch(url.toString());
       const data = await response.json();
-      console.log(data);
       setCharacters(data.results || []);
       setTotalPages(data.info?.pages || 1);
     } catch {
@@ -74,8 +73,6 @@ export function App() {
 
   const handleCardClick = (character: Character) => {
     setSelectedCharacter(character);
-    console.log('click');
-    console.log(selectedCharacter);
   };
 
   return (

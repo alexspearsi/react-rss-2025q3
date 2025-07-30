@@ -1,6 +1,7 @@
 import './Header.css';
 import { useState, useEffect, type Dispatch, type SetStateAction } from 'react';
 import { Button } from '../Button/Button';
+import { Link } from 'react-router-dom';
 
 type Props = {
   onSearchSubmit: (query: string) => void;
@@ -45,6 +46,9 @@ export function Header({ onSearchSubmit }: Props) {
         />
         <Button className="header__button">Search</Button>
       </form>
+      <Link to='/about'>
+        <Button className={'header__button'}>About</Button>
+      </Link>
     </header>
   );
 }
