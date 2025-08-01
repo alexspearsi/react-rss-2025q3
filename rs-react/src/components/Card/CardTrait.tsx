@@ -11,17 +11,7 @@ type Props = {
 };
 
 function getClass(value: string, type: string) {
-  if (type === 'gender') {
-    if (value === 'Male') return 'male';
-    if (value === 'Female') return 'female';
-  }
-
-  if (type === 'species') {
-    if (value === 'Human') return 'human';
-    if (value === 'Alien') return 'alien';
-  }
-
-  return '';
+  return (type === 'gender' || type === 'species') ? value.toLowerCase() : '';
 }
 
 export function CardTrait({ value, type }: Props) {
