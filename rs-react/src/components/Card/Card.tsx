@@ -8,12 +8,12 @@ type Props = {
   onClick?: () => void;
 };
 
-export function Card({ character, onClick }: Props) {
+export function Card({ character: { image, name }, onClick }: Props) {
   return (
     <div data-testid="card" className="card" onClick={onClick}>
-      <CardImage image={character.image} name={character.name} />
+      <CardImage image={image} name={name} />
 
-      <CardTitle>{character.name}</CardTitle>
+      <CardTitle>{name}</CardTitle>
     </div>
   );
 }
