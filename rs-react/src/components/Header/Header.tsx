@@ -1,26 +1,11 @@
 import './Header.css';
-import { useState, useEffect, type Dispatch, type SetStateAction } from 'react';
 import { Button } from '../Button/Button';
 import { Link } from 'react-router-dom';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 type Props = {
   onSearchSubmit: (query: string) => void;
 };
-
-function useLocalStorage(
-  key: string,
-  initialValue: string
-): [string, Dispatch<SetStateAction<string>>] {
-  const [value, setValue] = useState(() => {
-    return localStorage.getItem(key) ?? initialValue;
-  });
-
-  useEffect(() => {
-    localStorage.setItem(key, value);
-  }, [key, value]);
-
-  return [value, setValue];
-}
 
 export function Header({ onSearchSubmit }: Props) {
   const [inputValue, setInputValue] = useLocalStorage('query', '');
