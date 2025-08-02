@@ -75,6 +75,7 @@ export function App() {
     setSelectedCharacter(character);
   };
 
+  const { gender, species, status, origin, created } = selectedCharacter ?? {};
   return (
     <>
       <Header onSearchSubmit={handleSearchSubmit} />
@@ -102,21 +103,19 @@ export function App() {
                 <p className='card__traits'>
                   <CardTrait
                     type='species'
-                    value={selectedCharacter?.species ?? ''}
+                    value={species ?? ''}
                   />
-                  <CardTrait type='gender' value={selectedCharacter.gender} />
+                  <CardTrait type='gender' value={gender ?? ''} />
                 </p>
 
-                <CardDetail icon='status' text={selectedCharacter.status} />
+                <CardDetail icon='status' text={status ?? ''} />
                 <CardDetail
                   icon='location'
-                  text={selectedCharacter.origin.name}
+                  text={origin?.name ?? ''}
                 />
                 <CardDetail
                   icon='creation'
-                  text={new Date(
-                    selectedCharacter.created
-                  ).toLocaleDateString()}
+                  text={new Date(created ?? '').toLocaleDateString()}
                 />
               </CardDescription>
             </div>
