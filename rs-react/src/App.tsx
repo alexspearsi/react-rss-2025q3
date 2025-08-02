@@ -78,8 +78,8 @@ export function App() {
   return (
     <>
       <Header onSearchSubmit={handleSearchSubmit} />
-      <div id="main">
-        <div id="side-bar">
+      <div id='main'>
+        <div id='side-bar'>
           <Main onErrorButtonClick={() => setHasError(true)}>
             {isLoading ? (
               <Spinner />
@@ -97,23 +97,23 @@ export function App() {
           </Main>
 
           {selectedCharacter && (
-            <div id="detail">
+            <div id='detail'>
               <CardDescription>
-                <p className="card__traits">
+                <p className='card__traits'>
                   <CardTrait
-                    type="species"
+                    type='species'
                     value={selectedCharacter?.species || ''}
                   />
-                  <CardTrait type="gender" value={selectedCharacter.gender} />
+                  <CardTrait type='gender' value={selectedCharacter.gender} />
                 </p>
 
-                <CardDetail icon="status" text={selectedCharacter.status} />
+                <CardDetail icon='status' text={selectedCharacter.status} />
                 <CardDetail
-                  icon="location"
+                  icon='location'
                   text={selectedCharacter.origin.name}
                 />
                 <CardDetail
-                  icon="creation"
+                  icon='creation'
                   text={new Date(
                     selectedCharacter.created
                   ).toLocaleDateString()}

@@ -17,9 +17,9 @@ export function Main({ children, onErrorButtonClick }: Props) {
   const childrenCount = Children.count(children);
 
   return (
-    <main className="main">
+    <main className='main'>
       {childrenCount === 0 ? (
-        <p className="main__nothing-found">
+        <p className='main__nothing-found'>
           We searched the multiverse... and found nothing
         </p>
       ) : (
@@ -28,7 +28,7 @@ export function Main({ children, onErrorButtonClick }: Props) {
 
       {showButton && (
         <Button
-          className={`button main__button-error`}
+          className={'button main__button-error'}
           onClick={onErrorButtonClick}
         >
           Invoke Error

@@ -4,7 +4,7 @@ import { CardTrait } from './CardTrait';
 
 describe('Test CardTrait component', () => {
   it('renders CardTrait component correctly', () => {
-    render(<CardTrait type="gender" value="male" />);
+    render(<CardTrait type='gender' value='male' />);
 
     const element = screen.getByText('male');
     expect(element).toBeInTheDocument();

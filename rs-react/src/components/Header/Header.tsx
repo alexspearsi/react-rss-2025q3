@@ -35,16 +35,16 @@ export function Header({ onSearchSubmit }: Props) {
   };
 
   return (
-    <header className="header">
-      <form className="header__form" onSubmit={handleSearchClick}>
+    <header className='header'>
+      <form className='header__form' onSubmit={handleSearchClick}>
         <input
-          type="text"
-          className="header__input"
-          placeholder="Search by name..."
+          type='text'
+          className='header__input'
+          placeholder='Search by name...'
           value={inputValue}
           onChange={handleInputChange}
         />
-        <Button className="header__button">Search</Button>
+        <Button className='header__button'>Search</Button>
       </form>
       <Link to='/about'>
         <Button className={'header__button'}>About</Button>

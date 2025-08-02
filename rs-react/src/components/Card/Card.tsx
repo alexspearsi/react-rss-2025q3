@@ -10,7 +10,7 @@ type Props = {
 
 export function Card({ character: { image, name }, onClick }: Props) {
   return (
-    <div data-testid="card" className="card" onClick={onClick}>
+    <div data-testid='card' className='card' onClick={onClick}>
       <CardImage image={image} name={name} />
 
       <CardTitle>{name}</CardTitle>

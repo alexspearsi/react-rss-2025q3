@@ -7,9 +7,9 @@ type Props = {
 
 export function CardImage({ image, name }: Props) {
   return (
-    <div className="card__image">
+    <div className='card__image'>
       <img
-        className="card__image-avatar"
+        className='card__image-avatar'
         src={image}
         alt={`Picture of ${name}`}
       />

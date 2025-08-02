@@ -14,7 +14,7 @@ if (!rootElement) {
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <App />,
     errorElement: <NotFound />
   },

@@ -8,7 +8,7 @@ type Props = {
 
 export function Pagination({ currentPage, totalPages, onPageChange }: Props) {
   return (
-    <div className="pagination">
+    <div className='pagination'>
       {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
         <button
           key={pageNum}

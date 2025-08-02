@@ -5,5 +5,5 @@ type Props = {
 };
 
 export function CardDescription({ children }: Props) {
-  return <div className="card__description">{children}</div>;
+  return <div className='card__description'>{children}</div>;
 }
