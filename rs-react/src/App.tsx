@@ -23,7 +23,7 @@ export function App() {
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null
   );
-  const page = Number(searchParams.get('page') || '1');
+  const page = Number(searchParams.get('page') ?? '1');
 
   const fetchCharacters = async (query: string, page: number) => {
     setIsLoading(true);
@@ -35,8 +35,8 @@ export function App() {
 
       const response = await fetch(url.toString());
       const data = await response.json();
-      setCharacters(data.results || []);
-      setTotalPages(data.info?.pages || 1);
+      setCharacters(data.results ?? []);
+      setTotalPages(data.info?.pages ?? 1);
     } catch {
       setCharacters([]);
       setTotalPages(1);
@@ -102,7 +102,7 @@ export function App() {
                 <p className='card__traits'>
                   <CardTrait
                     type='species'
-                    value={selectedCharacter?.species || ''}
+                    value={selectedCharacter?.species ?? ''}
                   />
                   <CardTrait type='gender' value={selectedCharacter.gender} />
                 </p>

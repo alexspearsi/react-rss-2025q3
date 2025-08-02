@@ -12,7 +12,7 @@ function useLocalStorage(
   initialValue: string
 ): [string, Dispatch<SetStateAction<string>>] {
   const [value, setValue] = useState(() => {
-    return localStorage.getItem(key) || initialValue;
+    return localStorage.getItem(key) ?? initialValue;
   });
 
   useEffect(() => {
