@@ -6,7 +6,6 @@ const EXAMPLE_ICON = 'creation';
 const EXAMPLE_TEXT = 'Inner text';
 
 describe('Test CardDetail component', () => {
-
   it('renders CardDetail component correctly', () => {
     render(<CardDetail icon={EXAMPLE_ICON} text={EXAMPLE_TEXT} />);
 

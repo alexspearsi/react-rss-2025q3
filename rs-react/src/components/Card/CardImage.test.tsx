@@ -6,7 +6,6 @@ const EXAMPLE_CHARACTER = 'Morty';
 
 describe('Test CardImage component', () => {
   it('renders CardImage component correctly', () => {
-
     render(<CardImage image={EXAMPLE_CHARACTER} name={EXAMPLE_CHARACTER} />);
 
     const element = screen.getByRole('img', {

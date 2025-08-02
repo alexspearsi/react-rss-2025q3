@@ -5,7 +5,6 @@ import { CardTitle } from './CardTitle';
 const EXAMPLE_TEXT = 'Inner text';
 
 describe('Test CardTitle component', () => {
-
   it('renders CardTitle component correctly', () => {
     render(<CardTitle>{EXAMPLE_TEXT}</CardTitle>);
 

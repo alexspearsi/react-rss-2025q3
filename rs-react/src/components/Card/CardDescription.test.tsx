@@ -5,7 +5,6 @@ import { CardDescription } from './CardDescription';
 const EXAMPLE_TEXT = 'Inner text';
 
 describe('Test CardDescription component', () => {
-
   it('renders CardDescription component correctly', () => {
     render(<CardDescription>{EXAMPLE_TEXT}</CardDescription>);
 

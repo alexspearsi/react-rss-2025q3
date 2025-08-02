@@ -1,5 +1,5 @@
 import './Button.css';
-import { Component, type ReactNode, type MouseEvent } from 'react';
+import { type ReactNode, type MouseEvent } from 'react';
 
 type Props = {
   className: string;
@@ -7,14 +7,10 @@ type Props = {
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
-export class Button extends Component<Props> {
-  render() {
-    const { className, children, onClick } = this.props;
-
-    return (
-      <button className={`button ${className}`} onClick={onClick}>
-        {children}
-      </button>
-    );
-  }
+export function Button({ className, children, onClick }: Props) {
+  return (
+    <button className={`button ${className}`} onClick={onClick}>
+      {children}
+    </button>
+  );
 }
