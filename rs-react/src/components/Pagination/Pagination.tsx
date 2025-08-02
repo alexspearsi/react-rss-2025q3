@@ -1,4 +1,5 @@
 import './Pagination.css';
+import clsx from 'clsx';
 
 type Props = {
   currentPage: number;
@@ -14,7 +15,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Props) {
           key={pageNum}
           onClick={() => onPageChange(pageNum)}
           disabled={pageNum === currentPage}
-          className={pageNum === currentPage ? 'active' : ''}
+          className={clsx(pageNum === currentPage && 'active')}
         >
           {pageNum}
         </button>
