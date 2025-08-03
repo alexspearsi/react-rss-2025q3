@@ -1,4 +1,4 @@
-import './Pagination.css';
+import styles from './Pagination.module.css';
 import clsx from 'clsx';
 
 type Props = {
@@ -9,13 +9,13 @@ type Props = {
 
 export function Pagination({ currentPage, totalPages, onPageChange }: Props) {
   return (
-    <div className='pagination'>
+    <div className={styles.pagination}>
       {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
         <button
           key={pageNum}
           onClick={() => onPageChange(pageNum)}
           disabled={pageNum === currentPage}
-          className={clsx(pageNum === currentPage && 'active')}
+          className={clsx(pageNum === currentPage && styles.active)}
         >
           {pageNum}
         </button>
