@@ -1,4 +1,4 @@
-import './Card.css';
+import styles from './Card.module.css';
 
 type Props = {
   icon: 'status' | 'location' | 'creation';
@@ -7,7 +7,7 @@ type Props = {
 
 export function CardDetail({ icon, text }: Props) {
   return (
-    <div className='card__row'>
+    <div className={styles.card_row}>
       <img src={`/icons/${icon}.svg`} alt={`${icon} icon`} />
       <p>{text}</p>
     </div>

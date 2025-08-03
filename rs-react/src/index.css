@@ -25,11 +25,11 @@ body {
 }
 
 #detail {
+  position: sticky;
+  top: 20px;
   flex: 1;
   flex-shrink: 1;
+  align-self: flex-start;
   border-radius: 10px;
-  margin-top: 20px;
-  margin-bottom: 17px;
-  margin-left: -6px;
-  margin-right: 14px;
+  margin: 20px 14px 17px -8px;
 }

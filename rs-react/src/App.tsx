@@ -1,3 +1,5 @@
+import styles from './components/Card/Card.module.css';
+
 import { Main } from './components/Main/Main';
 import { Card } from './components/Card/Card';
 import { Spinner } from './components/Spinner/Spinner';
@@ -84,7 +86,7 @@ export function App() {
           <Main onErrorButtonClick={() => setHasError(true)}>
             {isLoading ? (
               <Spinner />
-            ) : (
+            ) : characters.length === 0 ? null : (
               <>
                 {characters.map((character, index) => (
                   <Card
@@ -100,7 +102,7 @@ export function App() {
           {selectedCharacter && (
             <div id='detail'>
               <CardDescription>
-                <p className='card__traits'>
+                <p className={styles.card_traits}>
                   <CardTrait
                     type='species'
                     value={species ?? ''}

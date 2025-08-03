@@ -1,38 +1,17 @@
-import './Main.css';
-import { Children, useEffect, useState } from 'react';
-import { Button } from '../Button/Button';
+import styles from './Main.module.css';
 
 type Props = {
   children: React.ReactNode;
   onErrorButtonClick: () => void;
 };
 
-export function Main({ children, onErrorButtonClick }: Props) {
-  const [showButton, setShowButton] = useState(false);
-
-  useEffect(() => {
-    setShowButton(true);
-  }, []);
-
-  const childrenCount = Children.count(children);
-
+export function Main({ children }: Props) {
   return (
-    <main className='main'>
-      {childrenCount === 0 ? (
-        <p className='main__nothing-found'>
+    <main className={styles.main}>
+      {children ? children : (
+        <p className={styles.nothing_found}>
           We searched the multiverse... and found nothing
         </p>
-      ) : (
-        children
-      )}
-
-      {showButton && (
-        <Button
-          className={'button main__button-error'}
-          onClick={onErrorButtonClick}
-        >
-          Invoke Error
-        </Button>
       )}
     </main>
   );

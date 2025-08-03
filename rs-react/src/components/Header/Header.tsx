@@ -1,4 +1,5 @@
-import './Header.css';
+import styles from './Header.module.css'
+
 import { Button } from '../Button/Button';
 import { Link } from 'react-router-dom';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
@@ -20,19 +21,19 @@ export function Header({ onSearchSubmit }: Props) {
   };
 
   return (
-    <header className='header'>
-      <form className='header__form' onSubmit={handleSearchClick}>
+    <header className={styles.header}>
+      <form className={styles.form} onSubmit={handleSearchClick}>
         <input
           type='text'
-          className='header__input'
+          className={styles.input}
           placeholder='Search by name...'
           value={inputValue}
           onChange={handleInputChange}
         />
-        <Button className='header__button'>Search</Button>
+        <Button className={styles.button}>Search</Button>
       </form>
       <Link to='/about'>
-        <Button className={'header__button'}>About</Button>
+        <Button className={styles.button}>About</Button>
       </Link>
     </header>
   );

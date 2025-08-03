@@ -1,4 +1,4 @@
-import './Card.css';
+import styles from './Card.module.css';
 
 type Props = {
   image: string;
@@ -7,9 +7,9 @@ type Props = {
 
 export function CardImage({ image, name }: Props) {
   return (
-    <div className='card__image'>
+    <div className={styles.image}>
       <img
-        className='card__image-avatar'
+        className={styles.image_avatar}
         src={image}
         alt={`Picture of ${name}`}
       />

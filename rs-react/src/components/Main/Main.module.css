@@ -2,18 +2,18 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 100%;
+  width: 50%;
   max-width: 500px;
   padding: 20px;
 }
 
-.main__nothing-found {
+.nothing_found {
   font-size: 32px;
   color: white;
   text-align: center;
 }
 
-.main__button-error {
+.button_error {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -21,6 +21,6 @@
   border: 12px solid black;
 }
 
-.main__button-error:hover {
+.button_error:hover {
   background-color: rgb(154, 180, 202);
 }

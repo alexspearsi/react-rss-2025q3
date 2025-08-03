@@ -1,4 +1,5 @@
-import './Card.css';
+import clsx from 'clsx';
+import styles from './Card.module.css';
 
 type TraitType = 'gender' | 'species';
 
@@ -16,6 +17,6 @@ function getClass(value: string, type: string) {
 
 export function CardTrait({ value, type }: Props) {
   return (
-    <span className={`card__trait ${getClass(value, type)}`}>{value}</span>
+    <span className={clsx(styles.card_trait, styles[getClass(value, type)])}>{value}</span>
   );
 }

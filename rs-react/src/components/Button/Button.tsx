@@ -1,4 +1,6 @@
-import './Button.css';
+import styles from './Button.module.css';
+
+import clsx from 'clsx';
 import { type ReactNode, type MouseEvent } from 'react';
 
 type Props = {
@@ -9,7 +11,7 @@ type Props = {
 
 export function Button({ className, children, onClick }: Props) {
   return (
-    <button className={`button ${className}`} onClick={onClick}>
+    <button className={clsx(styles.button, className)} onClick={onClick}>
       {children}
     </button>
   );
