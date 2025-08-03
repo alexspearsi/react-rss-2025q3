@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 import { CardDescription } from './components/Card/CardDescription';
 import { CardTrait } from './components/Card/CardTrait';
 import { CardDetail } from './components/Card/CardDetail';
+import { SelectedItemsFlyout } from './components/SelectedItemsFlyout/SelectedItemsFlyout';
 
 const BASE_URL = 'https://rickandmortyapi.com/api/character/';
 
@@ -131,6 +132,7 @@ export function App() {
           onPageChange={handlePageChange}
         />
       )}
+      {<SelectedItemsFlyout />}
     </>
   );
 }
