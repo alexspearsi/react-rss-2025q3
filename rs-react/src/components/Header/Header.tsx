@@ -1,44 +1,40 @@
-import './Header.css';
-import { Component } from 'react';
+import styles from './Header.module.css'
+
 import { Button } from '../Button/Button';
+import { Link } from 'react-router-dom';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 type Props = {
   onSearchSubmit: (query: string) => void;
 };
 
-type State = {
-  inputValue: string;
-};
+export function Header({ onSearchSubmit }: Props) {
+  const [inputValue, setInputValue] = useLocalStorage('query', '');
 
-export class Header extends Component<Props, State> {
-  state = {
-    inputValue: localStorage.getItem('query') || '',
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
   };
 
-  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ inputValue: e.target.value });
-  };
-
-  handleSearchClick = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearchClick = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const query = this.state.inputValue;
-    this.props.onSearchSubmit(query);
+    onSearchSubmit(inputValue);
   };
 
-  render() {
-    return (
-      <header className="header">
-        <form className="header__form" onSubmit={this.handleSearchClick}>
-          <input
-            type="text"
-            className="header__input"
-            placeholder={'Search by name...'}
-            value={this.state.inputValue}
-            onChange={this.handleInputChange}
-          ></input>
-          <Button className={'header__button'}>Search</Button>
-        </form>
-      </header>
-    );
-  }
+  return (
+    <header className={styles.header}>
+      <form className={styles.form} onSubmit={handleSearchClick}>
+        <input
+          type='text'
+          className={styles.input}
+          placeholder='Search by name...'
+          value={inputValue}
+          onChange={handleInputChange}
+        />
+        <Button className={styles.button}>Search</Button>
+      </form>
+      <Link to='/about'>
+        <Button className={styles.button}>About</Button>
+      </Link>
+    </header>
+  );
 }

@@ -1,5 +1,5 @@
-import './Card.css';
-import { Component } from 'react';
+import clsx from 'clsx';
+import styles from './Card.module.css';
 
 type TraitType = 'gender' | 'species';
 
@@ -11,28 +11,12 @@ type Props = {
   value: Gender | Species;
 };
 
-export class CardTrait extends Component<Props> {
-  getClass(value: string, type: string) {
-    if (type === 'gender') {
-      if (value === 'Male') return 'male';
-      if (value === 'Female') return 'female';
-    }
+function getClass(value: string, type: string) {
+  return (type === 'gender' || type === 'species') ? value.toLowerCase() : '';
+}
 
-    if (type === 'species') {
-      if (value === 'Human') return 'human';
-      if (value === 'Alien') return 'alien';
-    }
-
-    return '';
-  }
-
-  render() {
-    const { value, type } = this.props;
-
-    return (
-      <span className={`card__trait ${this.getClass(value, type)}`}>
-        {value}
-      </span>
-    );
-  }
+export function CardTrait({ value, type }: Props) {
+  return (
+    <span className={clsx(styles.card_trait, styles[getClass(value, type)])}>{value}</span>
+  );
 }

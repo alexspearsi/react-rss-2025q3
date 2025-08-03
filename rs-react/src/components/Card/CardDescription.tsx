@@ -1,12 +1,9 @@
-import './Card.css';
-import { Component } from 'react';
+import styles from './Card.module.css';
 
 type Props = {
   children: React.ReactNode;
 };
 
-export class CardDescription extends Component<Props> {
-  render() {
-    return <div className="card__description">{this.props.children}</div>;
-  }
+export function CardDescription({ children }: Props) {
+  return <div className={styles.description}>{children}</div>;
 }

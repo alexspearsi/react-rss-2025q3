@@ -2,6 +2,11 @@ import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, test, vi, beforeEach } from 'vitest';
 import { Header } from './Header';
+import { MemoryRouter } from 'react-router-dom';
+
+export function renderWithRouter(element: React.ReactElement) {
+  return render(<MemoryRouter>{element}</MemoryRouter>)
+}
 
 describe('Header component (Search functionality)', () => {
   const SEARCH_QUERY_1 = 'Rick';
@@ -16,14 +21,14 @@ describe('Header component (Search functionality)', () => {
   test('gets input value from localStorage', () => {
     localStorage.setItem('query', SEARCH_QUERY_1);
 
-    render(<Header onSearchSubmit={vi.fn()} />);
+    renderWithRouter(<Header onSearchSubmit={vi.fn()} />);
 
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('Rick');
   });
 
   test('updates input value on user typing', async () => {
-    render(<Header onSearchSubmit={vi.fn()} />);
+    renderWithRouter(<Header onSearchSubmit={vi.fn()} />);
 
     const input = screen.getByRole('textbox');
 
@@ -35,7 +40,7 @@ describe('Header component (Search functionality)', () => {
   test('calls onSearchSubmit with query', async () => {
     const mockFunction = vi.fn();
 
-    render(<Header onSearchSubmit={mockFunction} />);
+    renderWithRouter(<Header onSearchSubmit={mockFunction} />);
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: 'Search' });
 

@@ -1,39 +1,20 @@
-import './Card.css';
-import { Component } from 'react';
+import styles from './Card.module.css';
+
 import { CardImage } from './CardImage';
 import { CardTitle } from './CardTitle';
-import { CardDetail } from './CardDetail';
-import { CardTrait } from './CardTrait';
 import type { Character } from '../../types/character';
-import { CardDescription } from './CardDescription';
 
 type Props = {
   character: Character;
+  onClick?: () => void;
 };
 
-export class Card extends Component<Props> {
-  render() {
-    const { name, image, species, gender, status, origin, created } =
-      this.props.character;
-    return (
-      <div data-testid="card" className="card">
-        <CardImage image={image} name={name} />
+export function Card({ character: { image, name }, onClick }: Props) {
+  return (
+    <div data-testid='card' className={styles.card} onClick={onClick}>
+      <CardImage image={image} name={name} />
 
-        <CardDescription>
-          <CardTitle>{name}</CardTitle>
-          <p className="card__traits">
-            <CardTrait type="species" value={species} />
-            <CardTrait type="gender" value={gender} />
-          </p>
-
-          <CardDetail icon="status" text={status} />
-          <CardDetail icon="location" text={origin.name} />
-          <CardDetail
-            icon="creation"
-            text={new Date(created).toLocaleDateString()}
-          />
-        </CardDescription>
-      </div>
-    );
-  }
+      <CardTitle>{name}</CardTitle>
+    </div>
+  );
 }

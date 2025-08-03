@@ -1,12 +1,9 @@
-import './Card.css';
-import { Component } from 'react';
+import styles from './Card.module.css';
 
 type Props = {
   children: React.ReactNode;
 };
 
-export class CardTitle extends Component<Props> {
-  render() {
-    return <h2 className="card__title">{this.props.children}</h2>;
-  }
+export function CardTitle({ children }: Props) {
+  return <h2 className={styles.title}>{children}</h2>;
 }

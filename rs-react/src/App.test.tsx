@@ -6,6 +6,7 @@ import {
 } from '@testing-library/react';
 import { CardTitle } from './components/Card/CardTitle';
 import { App } from './App';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('Test App component', () => {
   test('renders a message', () => {
@@ -21,7 +22,11 @@ describe('Test App component', () => {
   });
 
   test('removes the loading spinner after fetching data', async () => {
-    render(<App />);
+        render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
 
     await waitForElementToBeRemoved(() => screen.getByTestId('spinner'));
 

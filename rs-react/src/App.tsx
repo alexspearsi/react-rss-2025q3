@@ -1,80 +1,136 @@
-import { Component } from 'react';
+import styles from './components/Card/Card.module.css';
+
 import { Main } from './components/Main/Main';
 import { Card } from './components/Card/Card';
 import { Spinner } from './components/Spinner/Spinner';
+import { Pagination } from './components/Pagination/Pagination';
 import type { Character } from './types/character';
 import { Header } from './components/Header/Header';
+import { useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { CardDescription } from './components/Card/CardDescription';
+import { CardTrait } from './components/Card/CardTrait';
+import { CardDetail } from './components/Card/CardDetail';
 
-type AppState = {
-  characters: Character[];
-  searchQuery: string;
-  isLoading: boolean;
-  hasError: boolean;
-};
+const BASE_URL = 'https://rickandmortyapi.com/api/character/';
 
-export class App extends Component<object, AppState> {
-  state = {
-    characters: [],
-    searchQuery: '',
-    isLoading: false,
-    hasError: false,
-  };
+export function App() {
+  const [characters, setCharacters] = useState<Character[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [submittedQuery, setSubmittedQuery] = useState<string | null>(null);
+  const [totalPages, setTotalPages] = useState(1);
 
-  async fetchCharacters(searchQuery: string) {
-    this.setState({ isLoading: true });
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+    null
+  );
+  const page = Number(searchParams.get('page') ?? '1');
+
+  const fetchCharacters = async (query: string, page: number) => {
+    setIsLoading(true);
 
     try {
-      const response = await fetch(
-        `https://rickandmortyapi.com/api/character/?name=${searchQuery}`
-      );
+      const url = new URL(BASE_URL);
+      url.searchParams.set('name', query);
+      url.searchParams.set('page', String(page));
 
+      const response = await fetch(url.toString());
       const data = await response.json();
-
-      this.setState({ characters: data.results || [], isLoading: false });
+      setCharacters(data.results ?? []);
+      setTotalPages(data.info?.pages ?? 1);
     } catch {
-      this.setState({ characters: [], isLoading: false });
+      setCharacters([]);
+      setTotalPages(1);
+    } finally {
+      setIsLoading(false);
     }
-  }
-
-  async componentDidMount() {
-    const queryFromStorage = localStorage.getItem('query') || '';
-
-    this.setState({ searchQuery: queryFromStorage });
-    await this.fetchCharacters(queryFromStorage);
-  }
-
-  handleSearchSubmit = (query: string) => {
-    localStorage.setItem('query', query.trim());
-
-    this.setState({ searchQuery: query }, () => {
-      this.fetchCharacters(query);
-    });
   };
 
-  handleClick = () => {
-    this.setState({ hasError: true });
+  useEffect(() => {
+    const queryFromStorage = localStorage.getItem('query') ?? '';
+    setSubmittedQuery(queryFromStorage);
+  }, []);
+
+  useEffect(() => {
+    if (submittedQuery !== null) {
+      fetchCharacters(submittedQuery, page);
+    }
+  }, [submittedQuery, page]);
+
+  const handleSearchSubmit = (query: string) => {
+    const trimmedQuery = query.trim();
+    localStorage.setItem('query', trimmedQuery);
+    setSubmittedQuery(trimmedQuery);
+    setSearchParams({ page: '1' });
   };
 
-  render() {
-    const { characters, isLoading, hasError } = this.state;
+  const handlePageChange = (newPage: number) => {
+    setSearchParams({ page: String(newPage) });
+  };
 
-    if (hasError) {
-      throw new Error('The button was clicked');
-    }
+  if (hasError) {
+    throw new Error('The button was clicked');
+  }
 
-    return (
-      <div>
-        <Header onSearchSubmit={this.handleSearchSubmit} />
-        <Main onErrorButtonClick={this.handleClick}>
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            characters.map((character, index) => (
-              <Card key={index} character={character} />
-            ))
+  const handleCardClick = (character: Character) => {
+    setSelectedCharacter(character);
+  };
+
+  const { gender, species, status, origin, created } = selectedCharacter ?? {};
+  return (
+    <>
+      <Header onSearchSubmit={handleSearchSubmit} />
+      <div id='main'>
+        <div id='side-bar'>
+          <Main onErrorButtonClick={() => setHasError(true)}>
+            {isLoading ? (
+              <Spinner />
+            ) : characters.length === 0 ? null : (
+              <>
+                {characters.map((character, index) => (
+                  <Card
+                    key={index}
+                    character={character}
+                    onClick={() => handleCardClick(character)}
+                  />
+                ))}
+              </>
+            )}
+          </Main>
+
+          {selectedCharacter && (
+            <div id='detail'>
+              <CardDescription>
+                <p className={styles.card_traits}>
+                  <CardTrait
+                    type='species'
+                    value={species ?? ''}
+                  />
+                  <CardTrait type='gender' value={gender ?? ''} />
+                </p>
+
+                <CardDetail icon='status' text={status ?? ''} />
+                <CardDetail
+                  icon='location'
+                  text={origin?.name ?? ''}
+                />
+                <CardDetail
+                  icon='creation'
+                  text={new Date(created ?? '').toLocaleDateString()}
+                />
+              </CardDescription>
+            </div>
           )}
-        </Main>
+        </div>
       </div>
-    );
-  }
+      {!isLoading && characters.length > 0 && (
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
+    </>
+  );
 }
