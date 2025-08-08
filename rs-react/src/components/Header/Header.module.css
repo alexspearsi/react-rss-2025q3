@@ -1,0 +1,38 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: 455px;
+  max-width: 500px;
+}
+
+.input {
+  flex: 1;
+  height: 40px;
+  padding-left: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  outline: none;
+}
+
+.button {
+  display: block;
+  flex-shrink: 0;
+  margin-right: -3px;
+  color: white;
+  background-color: #635a5a;
+  transition: background 0.25s;
+}
+
+.button:hover {
+  background: #b1a5a5;
+}

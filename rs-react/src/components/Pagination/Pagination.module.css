@@ -1,0 +1,30 @@
+.pagination {
+  text-align: center;
+  margin-bottom: 45px;
+  width: 100%;
+}
+
+.pagination > button {
+  width: 30px;
+  margin: 2px;
+  padding: 4px 0;
+  color: rgb(180, 180, 159);
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid rgb(150, 144, 144);
+  background-color: transparent;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+}
+
+.pagination > button:hover {
+  background-color: #fff5e6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pagination .active {
+  color: white;
+  background-color: #ff6666;
+  font-weight: bold;
+}
