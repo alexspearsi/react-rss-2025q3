@@ -1,16 +1,19 @@
 import styles from './SelectedItemsFlyout.module.css';
-import { useCardStore } from '../../store/store'
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '../../state/store';
+import { clearCharacters } from '../../state/counter/counterSlice';
 
 export function SelectedItemsFlyout() {
-  const selectedItems = useCardStore((state) => state.selectedItems);
-  const clearItems = useCardStore((store) => store.clearItems)
+  const dispatch = useDispatch();
 
-  if (selectedItems.length === 0) return null;
+  const selectedCharacters = useSelector((store: RootState) => store.counter.listOfCharacters);
+
+  if (selectedCharacters.length === 0) return null;
 
   return (
     <div className={styles.flyout}>
-      {selectedItems.length} item{selectedItems.length > 1 ? 's' : ''} selected
-      <button className={styles.button} onClick={clearItems}>Unselect All</button>
+      {selectedCharacters.length} item{selectedCharacters.length > 1 ? 's' : ''} selected
+      <button className={styles.button} onClick={() => dispatch(clearCharacters())}>Unselect All</button>
     </div>
   )
 }
