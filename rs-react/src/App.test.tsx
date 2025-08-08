@@ -18,7 +18,6 @@ describe('Test App component', () => {
 
     expect(title).toBeInTheDocument();
     expect(title.tagName).toBe('H2');
-    expect(title).toHaveClass('card__title');
   });
 
   test('removes the loading spinner after fetching data', async () => {

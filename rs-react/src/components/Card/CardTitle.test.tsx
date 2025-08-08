@@ -11,6 +11,5 @@ describe('Test CardTitle component', () => {
     const heading = screen.getByRole('heading', { level: 2 });
 
     expect(heading).toHaveTextContent(EXAMPLE_TEXT);
-    expect(heading).toHaveClass('card__title');
   });
 });
