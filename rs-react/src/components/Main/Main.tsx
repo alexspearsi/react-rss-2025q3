@@ -2,7 +2,6 @@ import styles from './Main.module.css';
 
 type Props = {
   children: React.ReactNode;
-  onErrorButtonClick: () => void;
 };
 
 export function Main({ children }: Props) {
