@@ -59,23 +59,15 @@ export function App() {
       <Header onSearchSubmit={handleSearchSubmit} />
       <div id='main'>
         <div id='side-bar'>
-          <Main>
-            {isError 
-              ? <p>Error loading data</p> 
-              : (isLoading || isFetching) 
-                ? <Spinner /> 
-                : data?.results?.length 
-                ? <>
-                    {data.results.map((character, index) => (
-                      <Card
-                        key={index}
-                        character={character}
-                        onClick={() => handleCardClick(character)}
-                      />
-                    ))}
-                  </>
-                : <p>nothing found</p>
-            }
+          <Main showNothingFound={isError}>
+            {isFetching && !isLoading && <div style={{color: 'white'}}>Updating...</div>}
+            {isLoading ? (
+              <Spinner />
+            ) : data?.results?.length ? (
+              data.results.map((character, i) => (
+                <Card key={i} character={character} onClick={() => handleCardClick(character)} />
+              ))
+            ) : null}
           </Main>
 
           {selectedCharacter && (
@@ -104,7 +96,7 @@ export function App() {
         </div>
       </div>
 
-      {!isLoading && data?.results && data.results.length > 0 && (
+      {!isError && data?.results && data.results.length > 0 && (
         <Pagination
           currentPage={page}
           totalPages={totalPages}
