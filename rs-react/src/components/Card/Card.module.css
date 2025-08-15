@@ -82,3 +82,10 @@
 .card_trait.alien {
   background-color: #27ae60;
 }
+
+.nothing_found, 
+.fetching {
+  text-align: center;
+  font-size: 32px;
+  color: white;
+}

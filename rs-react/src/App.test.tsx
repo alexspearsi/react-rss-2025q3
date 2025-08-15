@@ -1,12 +1,25 @@
 import { describe, test, expect } from 'vitest';
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import { CardTitle } from './components/Card/CardTitle';
 import { App } from './App';
-import { BrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './state/store';
+import { NotFound } from './pages/NotFound';
+import { About } from './pages/About/About';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    errorElement: <NotFound />
+  },
+  {
+    path: '/about',
+    element: <About />
+  }
+]);
+
 
 describe('Test App component', () => {
   test('renders a message', () => {
@@ -21,13 +34,13 @@ describe('Test App component', () => {
   });
 
   test('removes the loading spinner after fetching data', async () => {
-        render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+    render(
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
     );
 
-    await waitForElementToBeRemoved(() => screen.getByTestId('spinner'));
+    await waitForElementToBeRemoved(() => screen.queryByTestId('spinner'));
 
     const cards = await screen.findAllByTestId('card');
     expect(cards.length).toBeGreaterThan(0);
