@@ -1,8 +1,6 @@
 import styles from './components/Card/Card.module.css';
 
 import { Main } from './components/Main/Main';
-import { Card } from './components/Card/Card';
-import { Spinner } from './components/Spinner/Spinner';
 import { Pagination } from './components/Pagination/Pagination';
 import type { Character } from './types/character';
 import { Header } from './components/Header/Header';
@@ -13,6 +11,7 @@ import { CardTrait } from './components/Card/CardTrait';
 import { CardDetail } from './components/Card/CardDetail';
 import { SelectedItemsFlyout } from './components/SelectedItemsFlyout/SelectedItemsFlyout';
 import { useGetCharactersQuery } from './state/characters/charactersApiSlice';
+import { CardList } from './components/Card/CardList';
 
 
 export function App() {
@@ -59,15 +58,14 @@ export function App() {
       <Header onSearchSubmit={handleSearchSubmit} />
       <div id='main'>
         <div id='side-bar'>
-          <Main showNothingFound={isError}>
-            {isFetching && !isLoading && <div style={{color: 'white'}}>Updating...</div>}
-            {isLoading ? (
-              <Spinner />
-            ) : data?.results?.length ? (
-              data.results.map((c) => (
-                <Card key={c.id} character={c} onClick={() => handleCardClick(c)} />
-              ))
-            ) : null}
+          <Main>
+            <CardList
+              characters={data?.results ?? []}
+              onCardClick={handleCardClick}
+              isFetching={isFetching}
+              isLoading={isLoading}
+              isError={isError}
+            />
           </Main>
 
           {selectedCharacter && (
