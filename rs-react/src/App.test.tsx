@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import { CardTitle } from './components/Card/CardTitle';
-import { App } from './App';
+import App from './App';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './state/store';

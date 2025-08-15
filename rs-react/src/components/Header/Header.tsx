@@ -1,8 +1,10 @@
+'use client';
+
 import styles from './Header.module.css'
 
 import { Button } from '../Button/Button';
-import { Link } from 'react-router-dom';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+import Link from 'next/link';
 
 type Props = {
   onSearchSubmit: (query: string) => void;
@@ -32,7 +34,7 @@ export function Header({ onSearchSubmit }: Props) {
         />
         <Button className={styles.button}>Search</Button>
       </form>
-      <Link to='/about'>
+      <Link href='/about'>
         <Button className={styles.button}>About</Button>
       </Link>
     </header>

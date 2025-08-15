@@ -1,10 +1,12 @@
+'use client'
+
 import styles from './components/Card/Card.module.css';
 
 import { Main } from './components/Main/Main';
 import { Pagination } from './components/Pagination/Pagination';
 import type { Character } from './types/character';
 import { Header } from './components/Header/Header';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { CardDescription } from './components/Card/CardDescription';
 import { CardTrait } from './components/Card/CardTrait';
@@ -12,15 +14,18 @@ import { CardDetail } from './components/Card/CardDetail';
 import { SelectedItemsFlyout } from './components/SelectedItemsFlyout/SelectedItemsFlyout';
 import { useGetCharactersQuery } from './state/characters/charactersApiSlice';
 import { CardList } from './components/Card/CardList';
+import { useRouter } from 'next/navigation';
 
 
-export function App() {
+export default function App() {
   const [submittedQuery, setSubmittedQuery] = useState<string | null>(null);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [totalPages, setTotalPages] = useState(1);
+  const router = useRouter();
 
-  const page = Number(searchParams.get('page') ?? '1');
+
+  const page = Number(searchParams?.get('page') ?? '1');
 
   useEffect(() => {
     const queryFromStorage = localStorage.getItem('query') ?? '';
@@ -39,11 +44,12 @@ export function App() {
     const trimmedQuery = query.trim();
     localStorage.setItem('query', trimmedQuery);
     setSubmittedQuery(trimmedQuery);
-    setSearchParams({ page: '1' });
+    
+    router.push(`?page=1`)
   };
 
   const handlePageChange = (newPage: number) => {
-    setSearchParams({ page: String(newPage) });
+    router.push(`?page=${newPage}`)
   };
 
   const handleCardClick = (character: Character) => {

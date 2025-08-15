@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './Card.module.css';
 
 import type { Character } from '../../types/character';

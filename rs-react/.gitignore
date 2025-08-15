@@ -11,6 +11,9 @@ coverage
 dist
 dist-ssr
 *.local
+.next
+next-env.d.ts
+dist
 
 .vscode/*
 !.vscode/extensions.json
