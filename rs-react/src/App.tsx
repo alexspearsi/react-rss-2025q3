@@ -96,7 +96,7 @@ export function App() {
         </div>
       </div>
 
-      {!isError && data?.results && data.results.length > 0 && (
+      {totalPages < 2 ? null : (
         <Pagination
           currentPage={page}
           totalPages={totalPages}
