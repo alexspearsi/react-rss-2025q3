@@ -64,8 +64,8 @@ export function App() {
             {isLoading ? (
               <Spinner />
             ) : data?.results?.length ? (
-              data.results.map((character, i) => (
-                <Card key={i} character={character} onClick={() => handleCardClick(character)} />
+              data.results.map((c) => (
+                <Card key={c.id} character={c} onClick={() => handleCardClick(c)} />
               ))
             ) : null}
           </Main>
