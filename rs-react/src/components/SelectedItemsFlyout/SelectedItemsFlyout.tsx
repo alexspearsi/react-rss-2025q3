@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './SelectedItemsFlyout.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../state/store';

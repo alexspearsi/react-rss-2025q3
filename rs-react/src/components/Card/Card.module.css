@@ -44,9 +44,10 @@
 
 .card_row {
   display: flex;
+  align-items: center;
   flex-direction: row;
   gap: 6px;
-  margin-top: -20px;
+  margin-top: -10px;
 }
 
 .card_traits {
@@ -81,4 +82,11 @@
 
 .card_trait.alien {
   background-color: #27ae60;
+}
+
+.nothing_found, 
+.fetching {
+  text-align: center;
+  font-size: 32px;
+  color: white;
 }

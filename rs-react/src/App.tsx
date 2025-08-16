@@ -1,103 +1,77 @@
+'use client'
+
 import styles from './components/Card/Card.module.css';
 
 import { Main } from './components/Main/Main';
-import { Card } from './components/Card/Card';
-import { Spinner } from './components/Spinner/Spinner';
 import { Pagination } from './components/Pagination/Pagination';
 import type { Character } from './types/character';
 import { Header } from './components/Header/Header';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { CardDescription } from './components/Card/CardDescription';
 import { CardTrait } from './components/Card/CardTrait';
 import { CardDetail } from './components/Card/CardDetail';
 import { SelectedItemsFlyout } from './components/SelectedItemsFlyout/SelectedItemsFlyout';
+import { useGetCharactersQuery } from './state/characters/charactersApiSlice';
+import { CardList } from './components/Card/CardList';
+import { useRouter } from 'next/navigation';
 
-const BASE_URL = 'https://rickandmortyapi.com/api/character/';
 
-export function App() {
-  const [characters, setCharacters] = useState<Character[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasError, setHasError] = useState(false);
+export default function App() {
   const [submittedQuery, setSubmittedQuery] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [totalPages, setTotalPages] = useState(1);
+  const router = useRouter();
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
-    null
-  );
-  const page = Number(searchParams.get('page') ?? '1');
 
-  const fetchCharacters = async (query: string, page: number) => {
-    setIsLoading(true);
-
-    try {
-      const url = new URL(BASE_URL);
-      url.searchParams.set('name', query);
-      url.searchParams.set('page', String(page));
-
-      const response = await fetch(url.toString());
-      const data = await response.json();
-      setCharacters(data.results ?? []);
-      setTotalPages(data.info?.pages ?? 1);
-    } catch {
-      setCharacters([]);
-      setTotalPages(1);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const page = Number(searchParams?.get('page') ?? '1');
 
   useEffect(() => {
     const queryFromStorage = localStorage.getItem('query') ?? '';
     setSubmittedQuery(queryFromStorage);
   }, []);
 
+  const { data, isLoading, isFetching, isError } = useGetCharactersQuery({ name: submittedQuery ?? '', page: page });
+
   useEffect(() => {
-    if (submittedQuery !== null) {
-      fetchCharacters(submittedQuery, page);
+    if (data?.info?.pages) {
+      setTotalPages(data.info.pages)
     }
-  }, [submittedQuery, page]);
+  }, [data])
 
   const handleSearchSubmit = (query: string) => {
     const trimmedQuery = query.trim();
     localStorage.setItem('query', trimmedQuery);
     setSubmittedQuery(trimmedQuery);
-    setSearchParams({ page: '1' });
+    
+    router.push(`?page=1`)
   };
 
   const handlePageChange = (newPage: number) => {
-    setSearchParams({ page: String(newPage) });
+    router.push(`?page=${newPage}`)
   };
-
-  if (hasError) {
-    throw new Error('The button was clicked');
-  }
 
   const handleCardClick = (character: Character) => {
     setSelectedCharacter(character);
-  };
+  }
 
   const { gender, species, status, origin, created } = selectedCharacter ?? {};
+
+
   return (
     <>
       <Header onSearchSubmit={handleSearchSubmit} />
       <div id='main'>
         <div id='side-bar'>
-          <Main onErrorButtonClick={() => setHasError(true)}>
-            {isLoading ? (
-              <Spinner />
-            ) : characters.length === 0 ? null : (
-              <>
-                {characters.map((character, index) => (
-                  <Card
-                    key={index}
-                    character={character}
-                    onClick={() => handleCardClick(character)}
-                  />
-                ))}
-              </>
-            )}
+          <Main>
+            <CardList
+              characters={data?.results ?? []}
+              onCardClick={handleCardClick}
+              isFetching={isFetching}
+              isLoading={isLoading}
+              isError={isError}
+            />
           </Main>
 
           {selectedCharacter && (
@@ -125,13 +99,15 @@ export function App() {
           )}
         </div>
       </div>
-      {!isLoading && characters.length > 0 && (
+
+      {totalPages < 2 ? null : (
         <Pagination
           currentPage={page}
           totalPages={totalPages}
           onPageChange={handlePageChange}
         />
       )}
+
       {<SelectedItemsFlyout />}
     </>
   );
