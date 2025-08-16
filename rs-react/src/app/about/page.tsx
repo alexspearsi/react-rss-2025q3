@@ -1,6 +1,7 @@
+import Link from 'next/link';
 import styles from './About.module.css';
 
-export function About() {
+export default function About() {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -19,13 +20,13 @@ export function About() {
           <div>
             <h3>Education</h3>
             <p>This project was created as part of the RS School React course.</p>
-            <a 
+            <Link
               href='https://rs.school/' 
               target='_blank'
               className='course-link' rel='noreferrer'
             >
               Rolling Scope School
-            </a>
+            </Link>
           </div>
 
         </div>
