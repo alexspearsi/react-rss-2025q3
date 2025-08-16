@@ -44,9 +44,10 @@
 
 .card_row {
   display: flex;
+  align-items: center;
   flex-direction: row;
   gap: 6px;
-  margin-top: -20px;
+  margin-top: -10px;
 }
 
 .card_traits {
