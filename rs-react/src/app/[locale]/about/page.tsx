@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import styles from './About.module.css';
+import { useTranslations } from 'next-intl';
 
 export default function About() {
+  const t = useTranslations('AboutPage');
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -10,16 +13,16 @@ export default function About() {
         <div className={styles.section}>
           <div>
             <div>
-              <p><strong>Name:</strong> Alexander Strelchenko</p>
-              <p><strong>Role:</strong> React Developer</p>
-              <p><strong>Experience:</strong> Building modern web applications</p>
-              <p><strong>Skills:</strong> React, TypeScript, CSS, JavaScript</p>
+              <p><strong>{t('name')}</strong>{t('author')}</p>
+              <p><strong>{t('role')}</strong>{t('role_description')}</p>
+              <p><strong>{t('experience')}</strong>{t('experience_description')}</p>
+              <p><strong>{t('skills')}</strong> React, TypeScript, CSS, JavaScript</p>
             </div>
           </div>
           
           <div>
-            <h3>Education</h3>
-            <p>This project was created as part of the RS School React course.</p>
+            <h3>{t('education')}</h3>
+            <p>{t('description')}</p>
             <Link
               href='https://rs.school/' 
               target='_blank'

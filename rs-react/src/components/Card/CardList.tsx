@@ -6,6 +6,7 @@ import type { Character } from '../../types/character';
 import { Card } from './Card';
 import { CardSkeleton } from '../Skeleton/CardSkeleton';
 import { Spinner } from '../Spinner/Spinner';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   characters: Character[];
@@ -16,8 +17,10 @@ type Props = {
 }
 
 export function CardList({ characters, onCardClick, isFetching, isLoading, isError }: Props) {
+  const t = useTranslations('HomePage');
+
   if (isError) {
-    return <div className={styles.nothing_found}>We searched the multiverse... and found nothing</div>
+    return <div className={styles.nothing_found}>{t('nothing_found')}</div>
   }
 
   if (isLoading) {
@@ -29,7 +32,7 @@ export function CardList({ characters, onCardClick, isFetching, isLoading, isErr
   }
 
   if (!characters.length) {
-    return <div className={styles.nothing_found}>We searched the multiverse... and found nothing</div>
+    return <div className={styles.nothing_found}>{t('nothing_found')}</div>
   }
 
   return (

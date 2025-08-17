@@ -1,7 +1,6 @@
 'use client'
 
-import styles from '../../components/Card/Card.module.css';
-
+import styles from '../../components/Card/Card.module.css'
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -23,7 +22,6 @@ export default function App() {
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [totalPages, setTotalPages] = useState(1);
   const router = useRouter();
-
 
   const page = Number(searchParams?.get('page') ?? '1');
 
@@ -57,7 +55,6 @@ export default function App() {
   }
 
   const { gender, species, status, origin, created } = selectedCharacter ?? {};
-
 
   return (
     <>

@@ -1,0 +1,19 @@
+{
+  "HomePage": {
+    "search": "Search",
+    "about": "About",
+    "placeholder": "Search by name...",
+    "nothing_found": "We searched the multiverse... and found nothing"
+  },
+  "AboutPage": {
+    "name": "Name:",
+    "role": "Role:",
+    "experience": "Experience:",
+    "skills": "Skills:",
+    "education": "Education",
+    "author": " Alexander Strelchenko",
+    "experience_description": " Building mordern web applications",
+    "role_description": "React Developer",
+    "description": "This project was created as part of the RS School React course."
+  }
+}
