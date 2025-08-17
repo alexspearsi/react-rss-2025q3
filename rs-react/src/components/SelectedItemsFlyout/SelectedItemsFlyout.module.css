@@ -15,6 +15,11 @@
   z-index: 1000;
 }
 
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
 .button {
   display: inline-block;
   padding: 6px 12px;

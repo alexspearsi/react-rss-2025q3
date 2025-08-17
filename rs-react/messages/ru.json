@@ -1,0 +1,23 @@
+{
+  "HomePage": {
+    "search": "Поиск",
+    "about": "Обо мне",
+    "placeholder": "Поиск по имени...",
+    "nothing_found": "Мы обыскали мультивселенную... и ничего не нашли"
+  },
+  "AboutPage": {
+    "name": "Имя:",
+    "role": "Роль:",
+    "experience": "Опыт:",
+    "skills": "Навыки:",
+    "education": "Образование",
+    "author": " Александр Стрельченко",
+    "experience_description": " Создание современных веб приложений",
+    "role_description": " Реакт разработчик",
+    "description": "Этот проект был создан как часть курса по Реакту RS School"
+  },
+  "SelectedItemsFlyout": {
+    "download": "Скачать",
+    "unselect": "Отменить все"
+  }
+}

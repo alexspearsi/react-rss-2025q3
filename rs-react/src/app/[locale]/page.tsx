@@ -1,0 +1,111 @@
+'use client'
+
+import styles from '../../components/Card/Card.module.css'
+import { useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useGetCharactersQuery } from '../../state/characters/charactersApiSlice';
+import { Character } from '../../types/character';
+import { Header } from '../../components/Header/Header';
+import { Main } from '../../components/Main/Main';
+import { CardList } from '../../components/Card/CardList';
+import { CardDescription } from '../../components/Card/CardDescription';
+import { CardTrait } from '../../components/Card/CardTrait';
+import { CardDetail } from '../../components/Card/CardDetail';
+import { Pagination } from '../../components/Pagination/Pagination';
+import { SelectedItemsFlyout } from '../../components/SelectedItemsFlyout/SelectedItemsFlyout';
+
+
+export default function App() {
+  const [submittedQuery, setSubmittedQuery] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
+  const [totalPages, setTotalPages] = useState(1);
+  const router = useRouter();
+
+  const page = Number(searchParams?.get('page') ?? '1');
+
+  useEffect(() => {
+    const queryFromStorage = localStorage.getItem('query') ?? '';
+    setSubmittedQuery(queryFromStorage);
+  }, []);
+
+  const { data, isLoading, isFetching, isError } = useGetCharactersQuery({ name: submittedQuery ?? '', page: page });
+
+  useEffect(() => {
+    if (data?.info?.pages) {
+      setTotalPages(data.info.pages)
+    }
+  }, [data])
+
+  const handleSearchSubmit = (query: string) => {
+    const trimmedQuery = query.trim();
+    localStorage.setItem('query', trimmedQuery);
+    setSubmittedQuery(trimmedQuery);
+    
+    router.push(`?page=1`)
+  };
+
+  const handlePageChange = (newPage: number) => {
+    router.push(`?page=${newPage}`)
+  };
+
+  const handleCardClick = (character: Character) => {
+    setSelectedCharacter(character);
+  }
+
+  const { gender, species, status, origin, created } = selectedCharacter ?? {};
+
+  return (
+    <>
+      <Header onSearchSubmit={handleSearchSubmit} />
+      <div id='main'>
+        <div id='side-bar'>
+          <Main>
+            <CardList
+              characters={data?.results ?? []}
+              onCardClick={handleCardClick}
+              isFetching={isFetching}
+              isLoading={isLoading}
+              isError={isError}
+            />
+          </Main>
+
+          {selectedCharacter && (
+            <div id='detail'>
+              <CardDescription>
+                <p className={styles.card_traits}>
+                  <CardTrait
+                    type='species'
+                    value={species ?? ''}
+                  />
+                  <CardTrait type='gender' value={gender ?? ''} />
+                </p>
+
+                <CardDetail icon='status' text={status ?? ''} />
+                <CardDetail
+                  icon='location'
+                  text={origin?.name ?? ''}
+                />
+                <CardDetail
+                  icon='creation'
+                  text={new Date(created ?? '').toLocaleDateString()}
+                />
+              </CardDescription>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {totalPages < 2 ? null : (
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
+
+      {<SelectedItemsFlyout />}
+    </>
+  );
+}

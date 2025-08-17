@@ -4,13 +4,9 @@
   gap: 12px;
   width: 50%;
   max-width: 500px;
+  max-height: 1500px;
+  min-height: calc(100vh - 150px);
   padding: 20px;
-}
-
-.nothing_found {
-  font-size: 32px;
-  color: white;
-  text-align: center;
 }
 
 .button_error {

@@ -1,8 +1,11 @@
-import styles from './Header.module.css'
+'use client';
+
+import styles from './Header.module.css';
 
 import { Button } from '../Button/Button';
-import { Link } from 'react-router-dom';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { useTranslations } from 'next-intl';
+import { Link } from '../../i18n/navigation';
 
 type Props = {
   onSearchSubmit: (query: string) => void;
@@ -20,20 +23,22 @@ export function Header({ onSearchSubmit }: Props) {
     onSearchSubmit(inputValue);
   };
 
+  const t = useTranslations('HomePage');
+
   return (
     <header className={styles.header}>
       <form className={styles.form} onSubmit={handleSearchClick}>
         <input
           type='text'
           className={styles.input}
-          placeholder='Search by name...'
+          placeholder={t('placeholder')}
           value={inputValue}
           onChange={handleInputChange}
         />
-        <Button className={styles.button}>Search</Button>
+        <Button className={styles.button}>{t('search')}</Button>
       </form>
-      <Link to='/about'>
-        <Button className={styles.button}>About</Button>
+      <Link href='/about'>
+        <Button className={styles.button}>{t('about')}</Button>
       </Link>
     </header>
   );
