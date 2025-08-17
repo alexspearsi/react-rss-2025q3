@@ -1,20 +1,20 @@
 'use client'
 
-import styles from './components/Card/Card.module.css';
+import styles from '../../components/Card/Card.module.css';
 
-import { Main } from './components/Main/Main';
-import { Pagination } from './components/Pagination/Pagination';
-import type { Character } from './types/character';
-import { Header } from './components/Header/Header';
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { CardDescription } from './components/Card/CardDescription';
-import { CardTrait } from './components/Card/CardTrait';
-import { CardDetail } from './components/Card/CardDetail';
-import { SelectedItemsFlyout } from './components/SelectedItemsFlyout/SelectedItemsFlyout';
-import { useGetCharactersQuery } from './state/characters/charactersApiSlice';
-import { CardList } from './components/Card/CardList';
 import { useRouter } from 'next/navigation';
+import { useGetCharactersQuery } from '../../state/characters/charactersApiSlice';
+import { Character } from '../../types/character';
+import { Header } from '../../components/Header/Header';
+import { Main } from '../../components/Main/Main';
+import { CardList } from '../../components/Card/CardList';
+import { CardDescription } from '../../components/Card/CardDescription';
+import { CardTrait } from '../../components/Card/CardTrait';
+import { CardDetail } from '../../components/Card/CardDetail';
+import { Pagination } from '../../components/Pagination/Pagination';
+import { SelectedItemsFlyout } from '../../components/SelectedItemsFlyout/SelectedItemsFlyout';
 
 
 export default function App() {

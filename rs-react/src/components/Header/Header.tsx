@@ -1,6 +1,6 @@
 'use client';
 
-import styles from './Header.module.css'
+import styles from './Header.module.css';
 
 import { Button } from '../Button/Button';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
