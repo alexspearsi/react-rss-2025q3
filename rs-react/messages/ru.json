@@ -15,5 +15,9 @@
     "experience_description": " Создание современных веб приложений",
     "role_description": " Реакт разработчик",
     "description": "Этот проект был создан как часть курса по Реакту RS School"
+  },
+  "SelectedItemsFlyout": {
+    "download": "Скачать",
+    "unselect": "Отменить все"
   }
 }

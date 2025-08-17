@@ -15,5 +15,9 @@
     "experience_description": " Building mordern web applications",
     "role_description": "React Developer",
     "description": "This project was created as part of the RS School React course."
+  },
+  "SelectedItemsFlyout": {
+    "download": "Download",
+    "unselect": "Unselect All"
   }
 }
