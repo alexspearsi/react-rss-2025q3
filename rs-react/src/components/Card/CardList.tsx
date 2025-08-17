@@ -4,6 +4,7 @@ import styles from './Card.module.css';
 
 import type { Character } from '../../types/character';
 import { Card } from './Card';
+import { CardSkeleton } from '../Skeleton/CardSkeleton';
 import { Spinner } from '../Spinner/Spinner';
 
 type Props = {
@@ -24,7 +25,7 @@ export function CardList({ characters, onCardClick, isFetching, isLoading, isErr
   }
 
   if (isFetching) {
-    return <div className={styles.fetching}>Updating...</div>
+    return Array.from({length: 10}).map((_, i) => <CardSkeleton key={i} />)
   }
 
   if (!characters.length) {
