@@ -15,12 +15,12 @@ const counterSlice = createSlice({
   reducers: {
     addCharacter: (state, action: PayloadAction<Character>) => {
       const character = action.payload;
-      const isAlreadySelected = state.listOfCharacters.some(item => item.id === character.id);
-
-      if (!isAlreadySelected) {
-        state.listOfCharacters.push(character);
-      }
+      const exists = state.listOfCharacters.some(c => c.id === character.id);
+      state.listOfCharacters = exists
+        ? state.listOfCharacters.filter(c => c.id !== character.id)
+        : [...state.listOfCharacters, character];
     },
+
     clearCharacters: (state) => {
       state.listOfCharacters = [];
     }
