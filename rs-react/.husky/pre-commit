@@ -1,0 +1,3 @@
+cd rs-react
+
+npx lint-staged
