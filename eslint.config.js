@@ -17,7 +17,7 @@ export default tseslint.config(
     ],
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 2022,
       globals: globals.browser,
     },
     plugins: {
@@ -35,6 +35,8 @@ export default tseslint.config(
       "react-compiler/react-compiler": "error",
       ...react.configs.recommended.rules,
       ...react.configs["jsx-runtime"].rules,
+
+      "react/no-unescaped-entities": "off",
     },
     settings: {
       react: {
