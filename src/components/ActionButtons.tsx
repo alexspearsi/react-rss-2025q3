@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Modal from './Modal/Modal';
+import ControlledForm from './ControlledForm/ControlledForm';
 
 export default function ActionButtons() {
   const [isFirstModalOpen, setIsFirstModalOpen] = useState<boolean>(false);
@@ -12,7 +13,7 @@ export default function ActionButtons() {
 
         {isFirstModalOpen && (
           <Modal onClose={() => setIsFirstModalOpen(false)}>
-            <p>Содержимое первой модалки</p>
+            <ControlledForm />
           </Modal>
         )}
       </div>
