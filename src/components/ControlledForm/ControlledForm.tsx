@@ -1,29 +1,78 @@
 import styles from './ControlledForm.module.css';
-import { useForm, type SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-type FormData = {
-  name: string;
-  gender: 'male' | 'female';
-  age: number;
-  country: string;
-  email: string;
-  tel: string;
-  password: string;
-  passwordRepeat: string;
-  terms: boolean;
-};
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const ACCEPTED_TYPES = ['image/jpeg', 'image/png'];
 
-export default function UncontrolledForm() {
+const userFormSchema = z
+  .object({
+    avatar: z
+      .any()
+      .refine((file) => file?.length > 0, 'You need to upload an avatar')
+      .refine(
+        (file) => file?.length > 0 && file[0].size <= MAX_FILE_SIZE,
+        'File is too big (max 5MB)',
+      )
+      .refine(
+        (file) => file?.length > 0 && ACCEPTED_TYPES.includes(file[0].type),
+        'Only PNG or JPEG',
+      ),
+    name: z.string().regex(/^[A-Z]/, 'Must contain first uppercased letter'),
+
+    gender: z.enum(['male', 'female'], {
+      message: 'Select your gender',
+    }),
+
+    age: z.number().min(0, 'No negative values'),
+
+    country: z.string().min(1, 'Select a country'),
+
+    email: z.email('Invalid email address'),
+
+    tel: z.string().min(10, 'Enter a valid phone number'),
+
+    password: z
+      .string()
+      .regex(/[A-Z]/, 'Must contain at least one upper case letter')
+      .regex(/[a-z]/, 'Must contain at least one lower case letter')
+      .regex(/\d/, 'Must contain at least one number')
+      .regex(/[!@#$%^&*()]/, 'Must contain at least on special character'),
+
+    passwordRepeat: z.string(),
+    terms: z.boolean().refine((v) => v === true, 'You must accept the terms'),
+  })
+  .refine((data) => data.password === data.passwordRepeat, {
+    message: 'Password do not match',
+    path: ['passwordRepeat'],
+  });
+
+type UserForm = z.infer<typeof userFormSchema>;
+
+export default function ControlledForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
+    formState: { errors, isValid },
+    watch,
+  } = useForm<UserForm>({
+    resolver: zodResolver(userFormSchema),
+    mode: 'onChange',
+  });
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log('Form Data: ', data);
-  };
+  const avatarFile = watch('avatar');
 
+  function onSubmit(data: UserForm) {
+    console.log('check');
+    const result = userFormSchema.safeParse(data);
+
+    if (result.success) {
+      console.log('success', result);
+    } else {
+      console.log('error', result);
+    }
+  }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.profile}>
@@ -37,195 +86,191 @@ export default function UncontrolledForm() {
             type="file"
             accept="image/png, image/jpeg"
             style={{ display: 'none' }}
+            {...register('avatar')}
           />
           <label htmlFor="avatarUpload" className={styles.uploadBtn}>
-            Upload
+            {avatarFile?.length > 0 && !errors.avatar ? 'Uploaded' : 'Upload'}
           </label>
-        </div>
-
-        {/* NAME */}
-        <div className={styles.field}>
-          <label>Name:</label>
-          <div className={styles.inputWrapper}>
-            <input
-              {...register('name', {
-                required: 'Name is required',
-                pattern: {
-                  value: /^[A-Z][a-z]*$/,
-                  message: 'Invalid name',
-                },
-              })}
-              type="text"
-            />
-            <span className={styles.error}>
-              {errors.name?.message?.toString()}
-            </span>
-          </div>
-        </div>
-
-        {/* GENDER */}
-        <div className={styles.field}>
-          <label>Gender:</label>
-          <div
+          <span
             style={{
-              display: 'flex',
-              flexDirection: 'column',
-              position: 'relative',
+              position: 'absolute',
+              color: 'red',
+              fontSize: '12px',
+              bottom: '-17px',
+              left: '90px',
             }}
           >
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <label>
+            {errors.avatar?.message?.toString()}
+          </span>
+        </div>
+
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+          }}
+        >
+          <div style={{ width: '300px' }}>
+            {/* NAME */}
+            <fieldset className={styles.field}>
+              <label htmlFor="name">Name:</label>
+              <div className={styles.inputWrapper}>
+                <input id="name" type="text" {...register('name')} />
+                <span className={styles.error}>
+                  {errors.name?.message?.toString()}
+                </span>
+              </div>
+            </fieldset>
+
+            {/* EMAIL */}
+            <fieldset className={styles.field}>
+              <label htmlFor="email">Email:</label>
+              <div className={styles.inputWrapper}>
+                <input id="email" type="email" {...register('email')} />
+                <span className={styles.error}>
+                  {errors.email?.message?.toString()}
+                </span>
+              </div>
+            </fieldset>
+
+            {/* PASSWORD */}
+            <fieldset className={styles.field}>
+              <label htmlFor="password">Password:</label>
+              <div className={styles.inputWrapper}>
                 <input
-                  type="radio"
-                  value="male"
-                  {...register('gender', { required: 'Please select gender' })}
+                  id="password"
+                  type="password"
+                  {...register('password')}
                 />
-                Male
-              </label>
-              <label>
+                <span className={styles.error}>
+                  {errors.password?.message?.toString()}
+                </span>
+              </div>
+            </fieldset>
+
+            {/* PASSWORD AGAIN */}
+            <fieldset className={styles.field}>
+              <label htmlFor="passwordAgain">Password:</label>
+              <div className={styles.inputWrapper}>
                 <input
-                  type="radio"
-                  value="female"
-                  {...register('gender', { required: 'Please select gender' })}
+                  id="passwordAgain"
+                  type="password"
+                  {...register('passwordRepeat')}
                 />
-                Female
-              </label>
-              <span className={styles.error}>
-                {errors.gender?.message?.toString()}
-              </span>
-            </div>
+                <span className={styles.error}>
+                  {errors.passwordRepeat?.message?.toString()}
+                </span>
+              </div>
+            </fieldset>
+          </div>
+          <div style={{ width: '300px' }}>
+            {/* AGE */}
+            <fieldset className={styles.field}>
+              <label htmlFor="age">Age:</label>
+              <div className={styles.inputWrapper}>
+                <input
+                  id="age"
+                  type="number"
+                  {...register('age', { valueAsNumber: true })}
+                />
+                <span className={styles.error}>
+                  {errors.age?.message?.toString()}
+                </span>
+              </div>
+            </fieldset>
+
+            {/* GENDER */}
+            <fieldset className={styles.field}>
+              <label>Gender:</label>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  position: 'relative',
+                }}
+              >
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                  <label htmlFor="gender-male">
+                    <input
+                      id="gender-male"
+                      type="radio"
+                      value="male"
+                      {...register('gender')}
+                    />
+                    Male
+                  </label>
+                  <label htmlFor="gender-female">
+                    <input
+                      id="gender-female"
+                      type="radio"
+                      value="female"
+                      {...register('gender')}
+                    />
+                    Female
+                  </label>
+                  <span className={styles.error}>
+                    {errors.gender?.message?.toString()}
+                  </span>
+                </div>
+              </div>
+            </fieldset>
+
+            {/* COUNTRY */}
+            <fieldset className={styles.field}>
+              <label htmlFor="country">Country:</label>
+              <div className={styles.inputWrapper}>
+                <select id="country" defaultValue="" {...register('country')}>
+                  <option value="" disabled>
+                    -- Select country --
+                  </option>
+                  <option value="Belaurs">Belarus</option>
+                  <option value="Russia">Russia</option>
+                </select>
+                <span className={styles.error}>
+                  {errors.country?.message?.toString()}
+                </span>
+              </div>
+            </fieldset>
+
+            {/* TEL */}
+            <fieldset className={styles.field}>
+              <label htmlFor="tel">Tel:</label>
+              <div className={styles.inputWrapper}>
+                <input id="tel" type="tel" {...register('tel')} />
+                <span className={styles.error}>
+                  {errors.tel?.message?.toString()}
+                </span>
+              </div>
+            </fieldset>
           </div>
         </div>
 
-        {/* AGE */}
-        <div className={styles.field}>
-          <label>Age:</label>
-          <div className={styles.inputWrapper}>
-            <input
-              {...register('age', {
-                required: 'Age is required',
-                min: {
-                  value: 0,
-                  message: 'Age cannot be less than 0',
-                },
-              })}
-              type="number"
-            />
-            <span className={styles.error}>
-              {errors.age?.message?.toString()}
-            </span>
-          </div>
-        </div>
-
-        {/* COUNTRY */}
-        <div className={styles.field}>
-          <label>Country:</label>
-          <div className={styles.inputWrapper}>
-            <select
-              {...register('country', { required: 'Please select a country' })}
-              defaultValue=""
-            >
-              <option value="" disabled>
-                -- Select country --
-              </option>
-              <option value="Belaurs">Belarus</option>
-              <option value="Russia">Russia</option>
-            </select>
-            <span className={styles.error}>
-              {errors.country?.message?.toString()}
-            </span>
-          </div>
-        </div>
-
-        {/* EMAIL */}
-        <div className={styles.field}>
-          <label>Email:</label>
-          <div className={styles.inputWrapper}>
-            <input
-              type="email"
-              {...register('email', {
-                required: 'Email is required',
-                pattern: {
-                  value: /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/,
-                  message: 'Invalid email',
-                },
-              })}
-            />
-            <span className={styles.error}>
-              {errors.email?.message?.toString()}
-            </span>
-          </div>
-        </div>
-
-        {/* TEL */}
-        <div className={styles.field}>
-          <label>Tel:</label>
-          <div className={styles.inputWrapper}>
-            <input
-              type="tel"
-              {...register('tel', {
-                required: 'Telephone is required',
-              })}
-            />
-            <span className={styles.error}>
-              {errors.tel?.message?.toString()}
-            </span>
-          </div>
-        </div>
-
-        {/* PASSWORD */}
-        <div className={styles.field}>
-          <label>Password:</label>
-          <div className={styles.inputWrapper}>
-            <input
-              type="password"
-              {...register('password', {
-                required: 'Password is required',
-                pattern: {
-                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/,
-                  message: 'Must include: upper, lower, number, special char',
-                },
-              })}
-            />
-            <span className={styles.error}>
-              {errors.password?.message?.toString()}
-            </span>
-          </div>
-        </div>
-
-        {/* PASSWORD AGAIN */}
-        <div className={styles.field}>
-          <label>Password:</label>
-          <div className={styles.inputWrapper}>
-            <input
-              type="password"
-              {...register('passwordRepeat', {
-                required: 'Password repeat is required',
-              })}
-            />
-            <span className={styles.error}>
-              {errors.passwordRepeat?.message?.toString()}
-            </span>
-          </div>
-        </div>
-
-        <div className={styles.field}>
-          <label>Terms:</label>
-          <div className={styles.inputWrapper}>
-            <input
-              type="checkbox"
-              {...register('terms', { required: 'You must accept the Terms' })}
-            />
-            <span className={styles.error}>
-              {errors.terms?.message?.toString()}
-            </span>
-          </div>
+        {/* TERMS */}
+        <div style={{ position: 'relative', marginTop: '10px' }}>
+          <label>I accept the terms and agreement </label>
+          <input id="terms" type="checkbox" {...register('terms')} />
+          <span
+            style={{
+              position: 'absolute',
+              display: 'block',
+              color: 'red',
+              top: '20px',
+              left: '60px',
+              width: 'fit-content',
+              fontSize: '12px',
+            }}
+          >
+            {errors.terms?.message?.toString()}
+          </span>
         </div>
       </div>
 
       {/* BUTTON SUBMIT */}
       <div style={{ textAlign: 'center' }}>
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={!isValid}>
+          Submit
+        </button>
       </div>
     </form>
   );

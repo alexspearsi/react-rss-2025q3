@@ -1,6 +1,7 @@
 .profile {
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   width: fit-content;
   padding: 24px 44px;
@@ -9,11 +10,14 @@
 
 .avatarWrapper {
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 270px;
+  height: 270px;
+  margin-bottom: 15px;
 }
 
-.avatar {
+.avatarWrapper img {
+  position: absolute;
+  left: -8px;
   width: 100%;
 }
 
@@ -22,8 +26,9 @@
 
   position: absolute;
   bottom: 0;
+  left: -8px;
 
-  width: 130px;
+  width: 250px;
   padding: 5px 10px;
   border-radius: 8px;
 
@@ -98,13 +103,10 @@ h2 {
   text-align: center;
 }
 
-img {
-  display: block;
-  width: 90px;
-  margin-bottom: 20px;
-  border-radius: 10px;
-}
-
 span {
   color: #111827;
+}
+
+fieldset {
+  border: none;
 }
