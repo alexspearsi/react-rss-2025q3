@@ -1,42 +1,47 @@
 import styles from './UserProfile.module.css';
 
+import { useSelector } from 'react-redux';
+import { type RootState } from '../../state/store';
+
 export default function UserProfile() {
+  const { formData } = useSelector((state: RootState) => state.userForm);
+
   return (
     <div className={styles.profile}>
       <h2 className={styles.title}>User's information</h2>
 
       <div className={styles.avatar}>
-        <img src="./avatar.jpg"></img>
+        <img src={formData?.avatar || './avatar.jpg'}></img>
       </div>
 
       <div className={styles.field}>
         <label>Name:</label>
-        <span>Alexander</span>
+        <span>{formData?.name}</span>
       </div>
 
       <div className={styles.field}>
         <label>Gender:</label>
-        <span>Male</span>
+        <span>{formData?.gender}</span>
       </div>
 
       <div className={styles.field}>
         <label>Age:</label>
-        <span>26</span>
+        <span>{formData?.age}</span>
       </div>
 
       <div className={styles.field}>
         <label>Country:</label>
-        <span>Israel</span>
+        <span>{formData?.country}</span>
       </div>
 
       <div className={styles.field}>
         <label>Email:</label>
-        <span>alex@yandex.ru</span>
+        <span>{formData?.email}</span>
       </div>
 
       <div className={styles.field}>
         <label>Phone number:</label>
-        <span>+972-50-123-4567</span>
+        <span>{formData?.tel}</span>
       </div>
     </div>
   );
