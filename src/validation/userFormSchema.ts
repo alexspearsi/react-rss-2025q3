@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { countriesList } from '../utils/countriesList';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png'];
@@ -24,7 +25,10 @@ export const userFormSchema = z
 
     age: z.number().min(0, 'No negative values'),
 
-    country: z.string().min(1, 'Select a country'),
+    country: z
+      .string()
+      .min(1, 'Select a country')
+      .refine((val) => countriesList.includes(val), 'Select a valid country'),
 
     email: z.email('Invalid email address'),
 
@@ -46,3 +50,4 @@ export const userFormSchema = z
   });
 
 export type UserForm = z.infer<typeof userFormSchema>;
+export { countriesList };

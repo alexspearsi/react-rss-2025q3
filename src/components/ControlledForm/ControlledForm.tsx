@@ -3,9 +3,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { userFormSchema, type UserForm } from '../../validation/userFormSchema';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { saveUserData } from '../../state/form/formSlice';
 import { convertToBase64 } from '../../utils/convertToBase64';
+import type { RootState } from '../../state/store';
+import { useState } from 'react';
 
 export default function ControlledForm() {
   const {
@@ -17,6 +19,9 @@ export default function ControlledForm() {
     resolver: zodResolver(userFormSchema),
     mode: 'onChange',
   });
+
+  const countries = useSelector((state: RootState) => state.countries);
+  const [query, setQuery] = useState('');
 
   const dispatch = useDispatch();
 
@@ -33,6 +38,11 @@ export default function ControlledForm() {
       console.log('error', result);
     }
   }
+
+  const suggestion = countries.find((country) =>
+    country.toLowerCase().startsWith(query.toLowerCase()),
+  );
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.profile}>
@@ -180,13 +190,21 @@ export default function ControlledForm() {
             <fieldset className={styles.field}>
               <label htmlFor="country">Country:</label>
               <div className={styles.inputWrapper}>
-                <select id="country" defaultValue="" {...register('country')}>
-                  <option value="" disabled>
-                    -- Select country --
-                  </option>
-                  <option value="Belaurs">Belarus</option>
-                  <option value="Russia">Russia</option>
-                </select>
+                <input
+                  type="text"
+                  value={query}
+                  {...register('country', {
+                    onChange: (e) => {
+                      setQuery(e.target.value);
+                    },
+                  })}
+                />
+                {suggestion && query && (
+                  <span className={styles.suggestion}>
+                    {query}
+                    <span>{suggestion.slice(query.length)}</span>
+                  </span>
+                )}
                 <span className={styles.error}>
                   {errors.country?.message?.toString()}
                 </span>

@@ -99,6 +99,20 @@
   color: red;
 }
 
+.suggestion {
+  position: absolute;
+  top: 5px;
+  left: -3px;
+
+  display: flex;
+  align-items: center;
+
+  padding-left: 8px;
+
+  font-size: 13px;
+  color: transparent;
+}
+
 h2 {
   text-align: center;
 }
