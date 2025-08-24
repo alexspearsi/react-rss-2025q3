@@ -1,54 +1,11 @@
 import styles from './ControlledForm.module.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { userFormSchema, type UserForm } from '../../validation/userFormSchema';
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
-const ACCEPTED_TYPES = ['image/jpeg', 'image/png'];
-
-const userFormSchema = z
-  .object({
-    avatar: z
-      .any()
-      .refine((file) => file?.length > 0, 'You need to upload an avatar')
-      .refine(
-        (file) => file?.length > 0 && file[0].size <= MAX_FILE_SIZE,
-        'File is too big (max 5MB)',
-      )
-      .refine(
-        (file) => file?.length > 0 && ACCEPTED_TYPES.includes(file[0].type),
-        'Only PNG or JPEG',
-      ),
-    name: z.string().regex(/^[A-Z]/, 'Must contain first uppercased letter'),
-
-    gender: z.enum(['male', 'female'], {
-      message: 'Select your gender',
-    }),
-
-    age: z.number().min(0, 'No negative values'),
-
-    country: z.string().min(1, 'Select a country'),
-
-    email: z.email('Invalid email address'),
-
-    tel: z.string().min(10, 'Enter a valid phone number'),
-
-    password: z
-      .string()
-      .regex(/[A-Z]/, 'Must contain at least one upper case letter')
-      .regex(/[a-z]/, 'Must contain at least one lower case letter')
-      .regex(/\d/, 'Must contain at least one number')
-      .regex(/[!@#$%^&*()]/, 'Must contain at least on special character'),
-
-    passwordRepeat: z.string(),
-    terms: z.boolean().refine((v) => v === true, 'You must accept the terms'),
-  })
-  .refine((data) => data.password === data.passwordRepeat, {
-    message: 'Password do not match',
-    path: ['passwordRepeat'],
-  });
-
-type UserForm = z.infer<typeof userFormSchema>;
+import { useDispatch } from 'react-redux';
+import { saveUserData } from '../../state/form/formSlice';
+import { convertToBase64 } from '../../utils/convertToBase64';
 
 export default function ControlledForm() {
   const {
@@ -61,13 +18,16 @@ export default function ControlledForm() {
     mode: 'onChange',
   });
 
+  const dispatch = useDispatch();
+
   const avatarFile = watch('avatar');
 
-  function onSubmit(data: UserForm) {
-    console.log('check');
+  async function onSubmit(data: UserForm) {
     const result = userFormSchema.safeParse(data);
 
     if (result.success) {
+      const base64 = await convertToBase64(avatarFile[0]);
+      dispatch(saveUserData({ ...data, avatar: base64 }));
       console.log('success', result);
     } else {
       console.log('error', result);

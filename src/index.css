@@ -21,7 +21,6 @@ button {
   transition: background-color 0.98s ease;
 }
 
-button:hover {
-  color: white;
-  background-color: #848b92;
+button:disabled {
+  cursor: default;
 }
