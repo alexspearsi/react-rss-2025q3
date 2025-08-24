@@ -22,7 +22,7 @@ export default function ActionButtons() {
         <button onClick={() => setIsSecondModalOpen(true)}>2nd button</button>
         {isSecondModalOpen && (
           <Modal onClose={() => setIsSecondModalOpen(false)}>
-            <p>Содержимое второй модалки</p>
+            <ControlledForm />
           </Modal>
         )}
       </div>

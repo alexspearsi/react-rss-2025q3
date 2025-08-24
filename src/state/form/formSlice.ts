@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { UserForm } from '../../validation/userFormSchema';
 
-type UserState = {
+export type UserState = {
   formData: UserForm | null;
 };
 

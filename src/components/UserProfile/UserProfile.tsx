@@ -11,7 +11,10 @@ export default function UserProfile() {
       <h2 className={styles.title}>User's information</h2>
 
       <div className={styles.avatar}>
-        <img src={formData?.avatar || './avatar.jpg'}></img>
+        <img
+          src={formData?.avatar || './avatar.jpg'}
+          alt={formData?.avatar ? 'user avatar' : 'default avatar'}
+        />
       </div>
 
       <div className={styles.field}>

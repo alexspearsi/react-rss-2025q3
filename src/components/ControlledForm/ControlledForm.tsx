@@ -121,7 +121,7 @@ export default function ControlledForm() {
 
             {/* PASSWORD AGAIN */}
             <fieldset className={styles.field}>
-              <label htmlFor="passwordAgain">Password:</label>
+              <label htmlFor="passwordAgain">Repeat Password:</label>
               <div className={styles.inputWrapper}>
                 <input
                   id="passwordAgain"
