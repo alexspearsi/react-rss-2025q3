@@ -1,35 +1,63 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
+import { CountryInformation } from './components/CountryInformation';
+import type { CountriesData } from './types';
 
-function App() {
-  const [count, setCount] = useState(0);
+export default function App() {
+  const [countriesData, setCountriesData] = useState<CountriesData>({});
+  const [listCountryNames, setListCountryNames] = useState<string[]>([]);
+  const [expandedCountry, setExpandedCountry] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function getCountriesData() {
+      const response = await fetch(
+        'https://nyc3.digitaloceanspaces.com/owid-public/data/co2/owid-co2-data.json',
+      );
+      const data = await response.json();
+      setCountriesData(data);
+    }
+
+    getCountriesData();
+  }, []);
+
+  useEffect(() => {
+    setListCountryNames(Object.keys(countriesData));
+  }, [countriesData]);
+
+  function handleCountryClick(country: string) {
+    setExpandedCountry((prev) => (prev === country ? null : country));
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <h1 style={{ textAlign: 'center' }}>CO2 emissions data by countries</h1>
+      <table
+        border={1}
+        cellPadding={10}
+        style={{
+          width: '400px',
+          tableLayout: 'fixed',
+          borderCollapse: 'collapse',
+        }}
+      >
+        <thead>
+          <tr>
+            <th style={{ width: '200px', textAlign: 'center' }}>Country</th>
+            <th style={{ width: '110px', textAlign: 'center' }}>Population</th>
+            <th style={{ width: '60px', textAlign: 'center' }}>ISO</th>
+          </tr>
+        </thead>
+        <tbody>
+          {listCountryNames.map((country: string) => (
+            <CountryInformation
+              key={country}
+              country={country}
+              countryInfo={countriesData[country]}
+              isExpanded={expandedCountry === country}
+              onClick={handleCountryClick}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
-
-export default App;
