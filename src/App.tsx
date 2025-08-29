@@ -7,11 +7,14 @@ export default function App() {
   const [listCountryNames, setListCountryNames] = useState<string[]>([]);
   const [expandedCountry, setExpandedCountry] = useState<string | null>(null);
 
+  const [query, setQuery] = useState('');
+
   useEffect(() => {
     async function getCountriesData() {
-      const response = await fetch(
-        'https://nyc3.digitaloceanspaces.com/owid-public/data/co2/owid-co2-data.json',
-      );
+      // const response = await fetch(
+      //   'https://nyc3.digitaloceanspaces.com/owid-public/data/co2/owid-co2-data.json',
+      // );
+      const response = await fetch('../co2-data.json');
       const data = await response.json();
       setCountriesData(data);
     }
@@ -27,9 +30,21 @@ export default function App() {
     setExpandedCountry((prev) => (prev === country ? null : country));
   }
 
+  const filteredList = listCountryNames.filter((country) =>
+    country.toLowerCase().includes(query.toLowerCase()),
+  );
+
   return (
     <div>
       <h1 style={{ textAlign: 'center' }}>CO2 emissions data by countries</h1>
+      <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+        <input
+          type="text"
+          placeholder="Search by country"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+      </div>
       <table
         border={1}
         cellPadding={10}
@@ -47,7 +62,7 @@ export default function App() {
           </tr>
         </thead>
         <tbody>
-          {listCountryNames.map((country: string) => (
+          {filteredList.map((country: string) => (
             <CountryInformation
               key={country}
               country={country}
