@@ -6,6 +6,7 @@ type Props = {
   countryInfo: CountryInfo;
   isExpanded: boolean;
   onClick: (country: string) => void;
+  year: number;
 };
 
 export function CountryInformation({
@@ -13,9 +14,11 @@ export function CountryInformation({
   countryInfo,
   isExpanded,
   onClick,
+  year,
 }: Props) {
   const { iso_code, data } = countryInfo;
-  const latestData = data[data.length - 1];
+
+  const selectedYearData = data.find((element) => element.year == year);
 
   return (
     <>
@@ -44,7 +47,7 @@ export function CountryInformation({
             textOverflow: 'ellipsis',
           }}
         >
-          {latestData?.population?.toLocaleString() ?? 'N/A'}
+          {selectedYearData?.population?.toLocaleString() ?? 'N/A'}
         </td>
         <td style={{ textAlign: 'center' }}>{iso_code ?? 'N/A'}</td>
       </tr>

@@ -8,14 +8,13 @@ export default function App() {
   const [expandedCountry, setExpandedCountry] = useState<string | null>(null);
 
   const [query, setQuery] = useState('');
+  const [year, setYear] = useState<number>(2023);
+
+  const [highlightPopulation, setHighlightPopulation] = useState(false);
 
   useEffect(() => {
     async function getCountriesData() {
-      // const response = await fetch(
-      //   'https://nyc3.digitaloceanspaces.com/owid-public/data/co2/owid-co2-data.json',
-      // );
-      const response = await fetch('../co2-data.json');
-      const data = await response.json();
+      const data = await fetch('../co2-data.json').then((res) => res.json());
       setCountriesData(data);
     }
 
@@ -28,6 +27,12 @@ export default function App() {
 
   function handleCountryClick(country: string) {
     setExpandedCountry((prev) => (prev === country ? null : country));
+  }
+
+  function handleYearChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    setYear(Number(e.target.value));
+    setHighlightPopulation(true);
+    setTimeout(() => setHighlightPopulation(false), 1000);
   }
 
   const filteredList = listCountryNames.filter((country) =>
@@ -44,6 +49,24 @@ export default function App() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
+        <select value={year} onChange={handleYearChange}>
+          <option value={2023}>2023</option>
+          <option value={2022}>2022</option>
+          <option value={2021}>2021</option>
+          <option value={2020}>2020</option>
+          <option value={2019}>2019</option>
+          <option value={2018}>2018</option>
+          <option value={2017}>2017</option>
+          <option value={2016}>2016</option>
+          <option value={2015}>2015</option>
+          <option value={2014}>2014</option>
+          <option value={2013}>2013</option>
+          <option value={2012}>2012</option>
+          <option value={2011}>2011</option>
+          <option value={2010}>2010</option>
+          <option value={2009}>2009</option>
+          <option value={2008}>2008</option>
+        </select>
       </div>
       <table
         border={1}
@@ -57,7 +80,16 @@ export default function App() {
         <thead>
           <tr>
             <th style={{ width: '200px', textAlign: 'center' }}>Country</th>
-            <th style={{ width: '110px', textAlign: 'center' }}>Population</th>
+            <th
+              style={{
+                width: '110px',
+                textAlign: 'center',
+                border: highlightPopulation ? '1px solid orange' : '',
+                transition: 'border 0.3s ease',
+              }}
+            >
+              Population
+            </th>
             <th style={{ width: '60px', textAlign: 'center' }}>ISO</th>
           </tr>
         </thead>
@@ -69,6 +101,7 @@ export default function App() {
               countryInfo={countriesData[country]}
               isExpanded={expandedCountry === country}
               onClick={handleCountryClick}
+              year={year}
             />
           ))}
         </tbody>
