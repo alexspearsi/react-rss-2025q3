@@ -1,3 +1,5 @@
+import styles from './App.module.css';
+
 import { useEffect, useRef, useState } from 'react';
 import { CountryInformation } from './components/CountryInformation/CountryInformation';
 import type { CountriesData } from './types';
@@ -8,6 +10,9 @@ export default function App() {
   const [expandedCountry, setExpandedCountry] = useState<string | null>(null);
   const [query, setQuery] = useState('');
   const [year, setYear] = useState<number>(2023);
+  const [sortOrderByCountryName, setSortOrderByCountryName] = useState<
+    'asc' | 'desc'
+  >('asc');
 
   const prevYearRef = useRef<number>(year);
   const [changedCountries, setChangedCountries] = useState<string[]>([]);
@@ -52,9 +57,23 @@ export default function App() {
     setTimeout(() => setChangedCountries([]), 1000);
   }
 
+  const handleSort = () => {
+    if (sortOrderByCountryName === 'asc') {
+      setSortOrderByCountryName('desc');
+    } else {
+      setSortOrderByCountryName('asc');
+    }
+  };
+
   const filteredList = listCountryNames.filter((country) =>
     country.toLowerCase().includes(query.toLowerCase()),
   );
+
+  const sortedList = [...filteredList].sort((a, b) => {
+    if (sortOrderByCountryName === 'asc') return a.localeCompare(b);
+    if (sortOrderByCountryName === 'desc') return b.localeCompare(a);
+    return 0;
+  });
 
   return (
     <div>
@@ -96,7 +115,15 @@ export default function App() {
       >
         <thead>
           <tr>
-            <th style={{ width: '200px', textAlign: 'center' }}>Country</th>
+            <th
+              className={styles.sortable}
+              style={{ width: '200px', textAlign: 'center' }}
+              onClick={handleSort}
+            >
+              Country
+              {sortOrderByCountryName === 'asc' && <span>▲</span>}
+              {sortOrderByCountryName === 'desc' && <span>▼</span>}
+            </th>
             <th
               style={{
                 width: '110px',
@@ -109,7 +136,7 @@ export default function App() {
           </tr>
         </thead>
         <tbody>
-          {filteredList.map((country: string) => (
+          {sortedList.map((country: string) => (
             <CountryInformation
               key={country}
               country={country}

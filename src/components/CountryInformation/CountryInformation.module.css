@@ -14,10 +14,12 @@
 
   transition:
     background-color 1s ease,
-    border 1s ease;
+    border 1s ease,
+    color 1s ease;
 }
 
 .highlight {
   border: 1px solid white;
+  color: white;
   background-color: orange;
 }
