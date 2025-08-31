@@ -10,9 +10,10 @@ export default function App() {
   const [expandedCountry, setExpandedCountry] = useState<string | null>(null);
   const [query, setQuery] = useState('');
   const [year, setYear] = useState<number>(2023);
-  const [sortOrderByCountryName, setSortOrderByCountryName] = useState<
-    'asc' | 'desc'
-  >('asc');
+  const [sortField, setSortField] = useState<'country' | 'population'>(
+    'country',
+  );
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   const prevYearRef = useRef<number>(year);
   const [changedCountries, setChangedCountries] = useState<string[]>([]);
@@ -57,21 +58,36 @@ export default function App() {
     setTimeout(() => setChangedCountries([]), 1000);
   }
 
-  const handleSort = () => {
-    if (sortOrderByCountryName === 'asc') {
-      setSortOrderByCountryName('desc');
-    } else {
-      setSortOrderByCountryName('asc');
-    }
-  };
-
   const filteredList = listCountryNames.filter((country) =>
     country.toLowerCase().includes(query.toLowerCase()),
   );
 
+  function handleSort(field: 'country' | 'population') {
+    if (sortField === field) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortOrder('asc');
+    }
+  }
+
   const sortedList = [...filteredList].sort((a, b) => {
-    if (sortOrderByCountryName === 'asc') return a.localeCompare(b);
-    if (sortOrderByCountryName === 'desc') return b.localeCompare(a);
+    if (sortField === 'country') {
+      if (sortOrder === 'asc') return a.localeCompare(b);
+      if (sortOrder === 'desc') return b.localeCompare(a);
+      return 0;
+    }
+
+    if (sortField === 'population') {
+      const countryA =
+        countriesData[a].data.find((item) => item.year == year)?.population ??
+        0;
+      const countryB =
+        countriesData[b].data.find((item) => item.year == year)?.population ??
+        0;
+
+      return sortOrder === 'asc' ? countryA - countryB : countryB - countryA;
+    }
     return 0;
   });
 
@@ -118,19 +134,22 @@ export default function App() {
             <th
               className={styles.sortable}
               style={{ width: '200px', textAlign: 'center' }}
-              onClick={handleSort}
+              onClick={() => handleSort('country')}
             >
               Country
-              {sortOrderByCountryName === 'asc' && <span>▲</span>}
-              {sortOrderByCountryName === 'desc' && <span>▼</span>}
+              {sortField === 'country' && (sortOrder === 'asc' ? ' ▲' : ' ▼')}
             </th>
             <th
+              className={styles.sortable}
               style={{
                 width: '110px',
                 textAlign: 'center',
               }}
+              onClick={() => handleSort('population')}
             >
               Population
+              {sortField === 'population' &&
+                (sortOrder === 'asc' ? ' ▲' : ' ▼')}
             </th>
             <th style={{ width: '60px', textAlign: 'center' }}>ISO</th>
           </tr>
