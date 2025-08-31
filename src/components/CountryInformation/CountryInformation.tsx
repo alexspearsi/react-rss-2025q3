@@ -3,6 +3,7 @@ import styles from './CountryInformation.module.css';
 import type { CountryInfo } from '../../types';
 import clsx from 'clsx';
 import { CountryAdditionalInformation } from '../InnerTable/InnerTable';
+import { memo, useMemo } from 'react';
 
 type Props = {
   country: string;
@@ -13,7 +14,7 @@ type Props = {
   isHighlighted: boolean;
 };
 
-export function CountryInformation({
+export const CountryInformation = memo(function CountryInformation({
   country,
   countryInfo,
   isExpanded,
@@ -23,7 +24,10 @@ export function CountryInformation({
 }: Props) {
   const { iso_code, data } = countryInfo;
 
-  const selectedYearData = data.find((element) => element.year == year);
+  const selectedYearData = useMemo(
+    () => data.find((element) => element.year == year),
+    [data, year],
+  );
 
   return (
     <>
@@ -53,4 +57,4 @@ export function CountryInformation({
       )}
     </>
   );
-}
+});

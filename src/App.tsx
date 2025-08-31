@@ -1,6 +1,6 @@
 import styles from './App.module.css';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CountryInformation } from './components/CountryInformation/CountryInformation';
 import type { CountriesData } from './types';
 
@@ -31,65 +31,76 @@ export default function App() {
     setListCountryNames(Object.keys(countriesData));
   }, [countriesData]);
 
-  function handleCountryClick(country: string) {
+  const handleCountryClick = useCallback((country: string) => {
     setExpandedCountry((prev) => (prev === country ? null : country));
-  }
+  }, []);
 
-  function handleYearChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    const newYear = Number(e.target.value);
-    const prevYear = prevYearRef.current;
+  const handleYearChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const newYear = Number(e.target.value);
+      const prevYear = prevYearRef.current;
 
-    const changed: string[] = [];
+      const changed: string[] = [];
 
-    Object.entries(countriesData).forEach(([country, info]) => {
-      const prevData = info.data.find((element) => element.year === prevYear);
-      const newData = info.data.find((element) => element.year === newYear);
+      Object.entries(countriesData).forEach(([country, info]) => {
+        const prevData = info.data.find((element) => element.year === prevYear);
+        const newData = info.data.find((element) => element.year === newYear);
 
-      if (prevData?.population !== newData?.population) {
-        changed.push(country);
-      }
-    });
+        if (prevData?.population !== newData?.population) {
+          changed.push(country);
+        }
+      });
 
-    setChangedCountries(changed);
-    setYear(newYear);
+      setChangedCountries(changed);
+      setYear(newYear);
 
-    prevYearRef.current = newYear;
+      prevYearRef.current = newYear;
 
-    setTimeout(() => setChangedCountries([]), 1000);
-  }
-
-  const filteredList = listCountryNames.filter((country) =>
-    country.toLowerCase().includes(query.toLowerCase()),
+      setTimeout(() => setChangedCountries([]), 1000);
+    },
+    [countriesData],
   );
 
-  function handleSort(field: 'country' | 'population') {
-    if (sortField === field) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortField(field);
+  const handleSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  }, []);
+
+  const filteredList = useMemo(() => {
+    return listCountryNames.filter((country) =>
+      country.toLowerCase().includes(query.toLowerCase()),
+    );
+  }, [listCountryNames, query]);
+
+  const handleSort = useCallback((field: 'country' | 'population') => {
+    setSortField((prevField) => {
+      if (prevField === field) {
+        setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
+        return prevField;
+      }
       setSortOrder('asc');
-    }
-  }
+      return field;
+    });
+  }, []);
 
-  const sortedList = [...filteredList].sort((a, b) => {
-    if (sortField === 'country') {
-      if (sortOrder === 'asc') return a.localeCompare(b);
-      if (sortOrder === 'desc') return b.localeCompare(a);
+  const sortedList = useMemo(() => {
+    return [...filteredList].sort((a, b) => {
+      if (sortField === 'country') {
+        return sortOrder === 'asc' ? a.localeCompare(b) : b.localeCompare(a);
+      }
+
+      if (sortField === 'population') {
+        const countryA =
+          countriesData[a].data.find((item) => item.year === year)
+            ?.population ?? 0;
+        const countryB =
+          countriesData[b].data.find((item) => item.year === year)
+            ?.population ?? 0;
+
+        return sortOrder === 'asc' ? countryA - countryB : countryB - countryA;
+      }
       return 0;
-    }
-
-    if (sortField === 'population') {
-      const countryA =
-        countriesData[a].data.find((item) => item.year == year)?.population ??
-        0;
-      const countryB =
-        countriesData[b].data.find((item) => item.year == year)?.population ??
-        0;
-
-      return sortOrder === 'asc' ? countryA - countryB : countryB - countryA;
-    }
-    return 0;
-  });
+    });
+  }, [filteredList, sortField, sortOrder, countriesData, year]);
 
   return (
     <div>
@@ -99,7 +110,7 @@ export default function App() {
           type="text"
           placeholder="Search by country"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleSearch}
         />
         <select value={year} onChange={handleYearChange}>
           <option value={2023}>2023</option>
