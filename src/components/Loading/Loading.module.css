@@ -5,7 +5,7 @@
   background: linear-gradient(90deg, #9ea3ad, #c8cdd4, #e5e7eb);
   background-size: 200% 100%;
 
-  animation: effect 1.3s infinite;
+  animation: effect 1.5s infinite;
 }
 
 @keyframes effect {

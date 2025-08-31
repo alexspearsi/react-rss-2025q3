@@ -178,19 +178,23 @@ export default function App() {
           </tr>
         </thead>
         <tbody>
-          <Suspense fallback={<Loading />}>
-            {sortedList.map((country: string) => (
-              <CountryInformation
-                key={country}
-                country={country}
-                countryInfo={countriesData[country]}
-                isExpanded={expandedCountry === country}
-                onClick={handleCountryClick}
-                year={year}
-                isHighlighted={changedCountries.includes(country)}
-              />
-            ))}
-          </Suspense>
+          {sortedList.length ? (
+            <Suspense fallback={<Loading />}>
+              {sortedList.map((country) => (
+                <CountryInformation
+                  key={country}
+                  country={country}
+                  countryInfo={countriesData[country]}
+                  isExpanded={expandedCountry === country}
+                  onClick={handleCountryClick}
+                  year={year}
+                  isHighlighted={changedCountries.includes(country)}
+                />
+              ))}
+            </Suspense>
+          ) : (
+            <Loading />
+          )}
         </tbody>
       </table>
     </div>
