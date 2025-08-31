@@ -1,4 +1,4 @@
-import type { CountryInfo } from '../types';
+import type { CountryInfo } from '../../types';
 
 type Props = {
   country: string;

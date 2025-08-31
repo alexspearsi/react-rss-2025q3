@@ -15,6 +15,7 @@ dist-ssr
 next-env.d.ts
 dist
 
+.vite
 .vscode/*
 !.vscode/extensions.json
 .idea

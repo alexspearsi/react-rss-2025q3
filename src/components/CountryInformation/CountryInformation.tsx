@@ -1,5 +1,8 @@
-import { CountryAdditionalInformation } from './CountryAdditionalInformation';
-import type { CountryInfo } from '../types';
+import styles from './CountryInformation.module.css';
+
+import type { CountryInfo } from '../../types';
+import clsx from 'clsx';
+import { CountryAdditionalInformation } from '../InnerTable/InnerTable';
 
 type Props = {
   country: string;
@@ -7,6 +10,7 @@ type Props = {
   isExpanded: boolean;
   onClick: (country: string) => void;
   year: number;
+  isHighlighted: boolean;
 };
 
 export function CountryInformation({
@@ -15,6 +19,7 @@ export function CountryInformation({
   isExpanded,
   onClick,
   year,
+  isHighlighted,
 }: Props) {
   const { iso_code, data } = countryInfo;
 
@@ -29,23 +34,11 @@ export function CountryInformation({
           backgroundColor: isExpanded ? '#121417' : '#323437',
         }}
       >
+        <td className={styles.country_cell}>{country}</td>
         <td
-          style={{
-            maxWidth: '200px',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}
-        >
-          {country}
-        </td>
-        <td
-          style={{
-            textAlign: 'right',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}
+          className={clsx(styles.population_cell, {
+            [styles.highlight]: isHighlighted,
+          })}
         >
           {selectedYearData?.population?.toLocaleString() ?? 'N/A'}
         </td>

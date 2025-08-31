@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
-import { CountryInformation } from './components/CountryInformation';
+import { useEffect, useRef, useState } from 'react';
+import { CountryInformation } from './components/CountryInformation/CountryInformation';
 import type { CountriesData } from './types';
 
 export default function App() {
   const [countriesData, setCountriesData] = useState<CountriesData>({});
   const [listCountryNames, setListCountryNames] = useState<string[]>([]);
   const [expandedCountry, setExpandedCountry] = useState<string | null>(null);
-
   const [query, setQuery] = useState('');
   const [year, setYear] = useState<number>(2023);
 
-  const [highlightPopulation, setHighlightPopulation] = useState(false);
+  const prevYearRef = useRef<number>(year);
+  const [changedCountries, setChangedCountries] = useState<string[]>([]);
 
   useEffect(() => {
     async function getCountriesData() {
@@ -30,9 +30,26 @@ export default function App() {
   }
 
   function handleYearChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    setYear(Number(e.target.value));
-    setHighlightPopulation(true);
-    setTimeout(() => setHighlightPopulation(false), 1000);
+    const newYear = Number(e.target.value);
+    const prevYear = prevYearRef.current;
+
+    const changed: string[] = [];
+
+    Object.entries(countriesData).forEach(([country, info]) => {
+      const prevData = info.data.find((element) => element.year === prevYear);
+      const newData = info.data.find((element) => element.year === newYear);
+
+      if (prevData?.population !== newData?.population) {
+        changed.push(country);
+      }
+    });
+
+    setChangedCountries(changed);
+    setYear(newYear);
+
+    prevYearRef.current = newYear;
+
+    setTimeout(() => setChangedCountries([]), 1000);
   }
 
   const filteredList = listCountryNames.filter((country) =>
@@ -84,8 +101,6 @@ export default function App() {
               style={{
                 width: '110px',
                 textAlign: 'center',
-                border: highlightPopulation ? '1px solid orange' : '',
-                transition: 'border 0.3s ease',
               }}
             >
               Population
@@ -102,6 +117,7 @@ export default function App() {
               isExpanded={expandedCountry === country}
               onClick={handleCountryClick}
               year={year}
+              isHighlighted={changedCountries.includes(country)}
             />
           ))}
         </tbody>
