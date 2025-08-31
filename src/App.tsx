@@ -32,7 +32,7 @@ export default function App() {
 
   useEffect(() => {
     async function getCountriesData() {
-      const data = await fetch('../co2-data.json').then((res) => res.json());
+      const data = await fetch('/co2-data.json').then((res) => res.json());
       setCountriesData(data);
     }
 
