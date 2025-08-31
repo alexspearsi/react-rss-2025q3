@@ -14,7 +14,7 @@ type Props = {
   isHighlighted: boolean;
 };
 
-export const CountryInformation = memo(function CountryInformation({
+const CountryInformation = memo(function CountryInformation({
   country,
   countryInfo,
   isExpanded,
@@ -58,3 +58,5 @@ export const CountryInformation = memo(function CountryInformation({
     </>
   );
 });
+
+export default CountryInformation;

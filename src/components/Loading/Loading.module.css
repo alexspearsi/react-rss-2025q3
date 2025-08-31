@@ -1,0 +1,19 @@
+.skeleton {
+  height: 16px;
+  border-radius: 6px;
+
+  background: linear-gradient(90deg, #9ea3ad, #c8cdd4, #e5e7eb);
+  background-size: 200% 100%;
+
+  animation: effect 1.3s infinite;
+}
+
+@keyframes effect {
+  0% {
+    background-position: 0% 0;
+  }
+
+  100% {
+    background-position: -100% 0;
+  }
+}

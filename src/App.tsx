@@ -1,8 +1,20 @@
 import styles from './App.module.css';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { CountryInformation } from './components/CountryInformation/CountryInformation';
+import {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import type { CountriesData } from './types';
+import { Loading } from './components/Loading/Loading';
+
+const CountryInformation = lazy(
+  () => import('./components/CountryInformation/CountryInformation'),
+);
 
 export default function App() {
   const [countriesData, setCountriesData] = useState<CountriesData>({});
@@ -166,17 +178,19 @@ export default function App() {
           </tr>
         </thead>
         <tbody>
-          {sortedList.map((country: string) => (
-            <CountryInformation
-              key={country}
-              country={country}
-              countryInfo={countriesData[country]}
-              isExpanded={expandedCountry === country}
-              onClick={handleCountryClick}
-              year={year}
-              isHighlighted={changedCountries.includes(country)}
-            />
-          ))}
+          <Suspense fallback={<Loading />}>
+            {sortedList.map((country: string) => (
+              <CountryInformation
+                key={country}
+                country={country}
+                countryInfo={countriesData[country]}
+                isExpanded={expandedCountry === country}
+                onClick={handleCountryClick}
+                year={year}
+                isHighlighted={changedCountries.includes(country)}
+              />
+            ))}
+          </Suspense>
         </tbody>
       </table>
     </div>
