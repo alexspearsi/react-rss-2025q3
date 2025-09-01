@@ -1,0 +1,14 @@
+:root {
+  color: white;
+  background-color: #242424;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
